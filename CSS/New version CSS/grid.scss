@@ -1,0 +1,566 @@
+$max-order: 2;
+$vmargin-row-list: (1, 2);
+$vspaced-row-list: (1, 2, 3);
+$cell-list: (
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  23,
+  24,
+  25
+); // TODO PWA LDF-10658 check 14 17 18 19 24 after MODULAR REFIT
+$offset-list: (
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  11,
+  13,
+  14
+); // TODO PWA LDF-10658 check 0 4 8 11 14 after MODULAR REFIT
+$padding-list: (1, 2, 3);
+$grid-template-list: (2, 3, 4, 6);
+$cell-wide-list: (5, 7);
+$vmargin-row-mt-list: (2);
+$vspaced-row-mt-list: (0, 3);
+$cell-mt-list: (
+  2,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25
+); // TODO PWA LDF-10658 check 8 12 13 18 23 24 after MODULAR REFIT
+$offset-mt-list: (
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+); // TODO PWA LDF-10658 check 5 7 after MODULAR REFIT
+$padding-mt-list: (
+  0,
+  1,
+  2,
+  3,
+  4
+); // TODO PWA LDF-10658 check 3 after MODULAR REFIT
+$grid-template-mt-list: (1, 2, 3, 4, 5);
+$vmargin-row-m-list: (
+  0,
+  1,
+  2,
+  3
+); // TODO PWA LDF-10658 check 2 after MODULAR REFIT
+$vspaced-row-m-list: (0, 2, 3, 4);
+$cell-m-list: (
+  3,
+  4,
+  7,
+  9,
+  10,
+  11,
+  12,
+  14,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25
+); // TODO PWA LDF-10658 check 14 16 after MODULAR REFIT
+$offset-m-list: (
+  0,
+  1,
+  2,
+  4,
+  6
+); // TODO PWA LDF-10658 check 6 after MODULAR REFIT
+$padding-m-list: (0, 1, 2, 3);
+$grid-template-m-list: (1, 2, 3);
+
+.grid {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex--row-reverse {
+  flex-direction: row-reverse;
+}
+
+.flex--col {
+  flex-direction: column;
+}
+
+.flex--col-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex--justify-center {
+  justify-content: center;
+}
+
+.flex--justify-end {
+  justify-content: flex-end;
+}
+
+.flex--justify-start {
+  justify-content: flex-start;
+}
+
+.flex--space-around {
+  justify-content: space-around;
+}
+
+.flex--space-between {
+  justify-content: space-between;
+}
+
+.flex--margin-left {
+  margin-left: auto;
+}
+
+.flex--margin-right {
+  margin-right: auto;
+}
+
+.flex--margin-top {
+  margin-top: auto;
+}
+
+.flex--align-start {
+  align-items: flex-start;
+}
+
+.flex--align-end {
+  align-items: flex-end;
+}
+
+.flex--align-center {
+  align-items: center;
+}
+
+.flex--align-self-start {
+  align-self: start;
+}
+
+.flex--align-self-center {
+  align-self: center;
+}
+
+.flex--align-baseline {
+  align-items: baseline;
+}
+
+.flex--centered {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex--grow {
+  flex-grow: 1;
+}
+
+.flex--basis-full {
+  flex-basis: 100%;
+  width: 100%;
+}
+
+.no-flex--basis {
+  flex-basis: 0;
+}
+
+.no-flex--shrink {
+  flex-shrink: 0;
+}
+
+.no-flex--resize {
+  flex: 0 0 auto;
+}
+
+.order--first {
+  order: -1;
+}
+
+.grid--place-start {
+  place-content: start;
+}
+
+@for $i from 0 through $max-order {
+  .order-#{$i} {
+    order: $i;
+  }
+}
+
+@each $i in $vmargin-row-list {
+  .l-vmargin-row-#{$i} {
+    margin-bottom: calc(#{$i} * #{$grid-column-width});
+  }
+}
+
+@each $i in $vspaced-row-list {
+  .l-vspaced-row-#{$i} {
+    padding-top: calc(#{$i} * #{$grid-column-width});
+    padding-bottom: calc(#{$i} * #{$grid-column-width});
+  }
+}
+
+.l-padding-top-row {
+  padding-top: calc(1 * #{$grid-column-width});
+}
+
+.l-padding-top-row-small {
+  padding-top: calc(0.75 * #{$grid-column-width});
+}
+
+.l-padding-top-row-large {
+  padding-top: calc(1.5 * #{$grid-column-width});
+}
+
+.l-padding-bottom-row-small {
+  padding-bottom: calc(0.75 * #{$grid-column-width});
+}
+
+.l-padding-bottom-row-large {
+  padding-bottom: calc(1.5 * #{$grid-column-width});
+}
+
+.l-vmargin-row-and-half {
+  margin-bottom: calc(1.5 * #{$grid-column-width});
+}
+
+@each $i in $cell-list {
+  .cell-#{$i} {
+    flex: 0 0 auto;
+    width: calc(#{$i} * #{$grid-column-width});
+  }
+}
+
+@each $i in $offset-list {
+  $cell-width: calc(#{$i} * #{$grid-column-width});
+
+  .offset-#{$i} {
+    margin-left: $cell-width;
+  }
+
+  .dir-rtl .offset-#{$i} {
+    margin-left: 0;
+    margin-right: $cell-width;
+  }
+}
+
+@each $i in $padding-list {
+  $cell-width: calc(#{$i} * #{$grid-column-width});
+
+  .padding-#{$i} {
+    padding-left: $cell-width;
+    padding-right: $cell-width;
+  }
+}
+
+@each $i in $grid-template-list {
+  .grid-template-#{$i} {
+    grid-template-columns: repeat(#{$i}, 1fr);
+  }
+}
+
+@include respond-to(desktop-only) {
+  .flex-d--col {
+    flex-direction: column;
+  }
+}
+
+@include respond-to(desktop-wide-only) {
+  @each $i in $cell-wide-list {
+    .cell-wide-#{$i} {
+      flex: 0 0 auto;
+      width: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+}
+
+@include respond-to(tablet-and-desktop) {
+  .l-d-columns-2 {
+    columns: 2;
+  }
+}
+
+@include respond-to(mobile-and-tablet) {
+  .flex-mt {
+    display: flex;
+  }
+
+  .mt-grid {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .flex-mt--col {
+    flex-direction: column;
+  }
+
+  .flex-mt--col-reverse {
+    flex-direction: column-reverse;
+  }
+
+  .flex-mt--align-center {
+    align-items: center;
+  }
+
+  .flex-mt--align-start {
+    align-items: flex-start;
+  }
+
+  .flex-mt--justify-start {
+    justify-content: flex-start;
+  }
+
+  .flex-mt--justify-center {
+    justify-content: center;
+  }
+
+  .flex-mt--justify-end {
+    justify-content: flex-end;
+  }
+
+  .mt-no-flex--basis {
+    flex-basis: 0;
+  }
+
+  @for $i from 0 through $max-order {
+    .order-mt-#{$i} {
+      order: $i;
+    }
+  }
+
+  @each $i in $vmargin-row-mt-list {
+    .l-vmargin-row-mt-#{$i} {
+      margin-bottom: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  @each $i in $vspaced-row-mt-list {
+    .l-vspaced-row-mt-#{$i} {
+      padding-top: calc(#{$i} * #{$grid-column-width});
+      padding-bottom: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  @each $i in $cell-mt-list {
+    .cell-mt-#{$i} {
+      flex: 0 0 auto;
+      width: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  @each $i in $offset-mt-list {
+    $cell-width: calc(#{$i} * #{$grid-column-width});
+
+    .offset-mt-#{$i} {
+      margin-left: $cell-width;
+    }
+
+    .dir-rtl .offset-mt-#{$i} {
+      margin-left: 0;
+      margin-right: $cell-width;
+    }
+  }
+
+  @each $i in $padding-mt-list {
+    $cell-width: calc(#{$i} * #{$grid-column-width});
+
+    .padding-mt-#{$i} {
+      padding-left: $cell-width;
+      padding-right: $cell-width;
+    }
+  }
+
+  @each $i in $grid-template-mt-list {
+    .grid-template-mt-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+    }
+  }
+}
+
+@include respond-to(mobile-only) {
+  .flex-m {
+    display: flex;
+  }
+
+  .flex-m--col {
+    flex-direction: column;
+  }
+
+  .flex-m--row {
+    flex-direction: row;
+  }
+
+  .flex-m--col-reverse {
+    flex-direction: column-reverse;
+  }
+
+  .flex-m--row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .flex-m--justify-center {
+    justify-content: center;
+  }
+
+  .flex-m--justify-end {
+    justify-content: flex-end;
+  }
+
+  .flex-m--justify-start {
+    justify-content: flex-start;
+  }
+
+  .flex-m--space-between {
+    justify-content: space-between;
+  }
+
+  .flex-m--align-start {
+    align-items: flex-start;
+  }
+
+  .flex-m--align-end {
+    align-items: flex-end;
+  }
+
+  .flex-m--align-center {
+    align-items: center;
+  }
+
+  .flex-m--align-stretch {
+    align-items: stretch;
+  }
+
+  .flex-m--basis-full {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  @for $i from 0 through $max-order {
+    .order-m-#{$i} {
+      order: $i;
+    }
+  }
+
+  @each $i in $vmargin-row-m-list {
+    .l-vmargin-row-m-#{$i} {
+      margin-bottom: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  @each $i in $vspaced-row-m-list {
+    .l-vspaced-row-m-#{$i} {
+      padding-top: calc(#{$i} * #{$grid-column-width});
+      padding-bottom: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  .l-padding-top-row-small {
+    padding-top: calc(2 * #{$grid-column-width});
+  }
+
+  .l-padding-top-row-large {
+    padding-top: calc(5 * #{$grid-column-width});
+  }
+
+  .l-padding-bottom-row-small {
+    padding-bottom: calc(2 * #{$grid-column-width});
+  }
+
+  .l-padding-bottom-row-large {
+    padding-bottom: calc(5 * #{$grid-column-width});
+  }
+
+  .l-padding-m-bottom-row-large {
+    padding-bottom: calc(5 * #{$grid-column-width});
+  }
+
+  @each $i in $cell-m-list {
+    .cell-m-#{$i} {
+      flex: 0 0 auto;
+      width: calc(#{$i} * #{$grid-column-width});
+    }
+  }
+
+  @each $i in $offset-m-list {
+    $cell-width: calc(#{$i} * #{$grid-column-width});
+
+    .offset-m-#{$i} {
+      margin-left: $cell-width;
+    }
+
+    .dir-rtl .offset-m-#{$i} {
+      margin-left: 0;
+      margin-right: $cell-width;
+    }
+  }
+
+  @each $i in $padding-m-list {
+    $cell-width: calc(#{$i} * #{$grid-column-width});
+
+    .padding-m-#{$i} {
+      padding-left: $cell-width;
+      padding-right: $cell-width;
+    }
+  }
+
+  @each $i in $grid-template-m-list {
+    .grid-template-m-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+    }
+  }
+}

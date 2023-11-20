@@ -1,0 +1,56 @@
+b {
+  white-space: nowrap;
+}
+
+.dy-reinsurance-pic img.klarna {
+  width: 10rem;
+}
+
+.dy-reinsurance-pic img {
+  width: 5.4rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .dy-reinsurance-items {
+    /*aspect-ratio: 4/3;*/
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .text-td-center button {
+    text-align: left;
+  }
+
+  .dy-reinsurance-pic {
+    margin-right: 2rem;
+  }
+
+  .dy-reinsurance-pic img {
+    width: 2.4rem;
+  }
+
+  .dy-reinsurance-pic img.klarna {
+    width: 3rem;
+  }
+
+  .dy-reinsurance-items.l-padding-around {
+    padding: 0;
+  }
+
+  .dy-reinsurance-items.curved--medium {
+    border-radius: initial;
+  }
+
+  .dy-reinsurance-items.bordered-grey-medium {
+    border: none;
+  }
+
+  .pdp-description + hr,
+  .js-pdp-sizeguide-btn:not(.dy-reinsurance-items),
+  .js-pdp-sizeguide-btn:not(.dy-reinsurance-items) + hr,
+  .js-pdp-delivery-popin:not(.dy-reinsurance-items),
+  .js-pdp-traceability-reload:not(.dy-reinsurance-items),
+  .js-pdp-traceability-reload:not(.dy-reinsurance-items) + hr {
+    display: none;
+  }
+}

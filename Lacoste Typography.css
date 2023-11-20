@@ -1,0 +1,87 @@
+.ff-normal {
+  font-family: $main-font-family;
+  font-weight: normal;
+}
+
+.ff-semibold {
+  font-family: $main-font-family;
+  font-weight: $semi-bold;
+}
+
+.ff-lacoste {
+  font-family: $lacoste-font-family;
+  font-weight: $extra-bold;
+  text-transform: uppercase;
+}
+
+.fs--xlarge {
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+.fs--medium {
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+}
+
+.fs--small {
+  font-size: 1.3rem;
+  line-height: 2.3rem;
+}
+
+.fs--xsmall {
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+
+@include respond-to(tablet-and-desktop) {
+  .fs-td--xlarge {
+    font-size: 2rem;
+    line-height: 3rem;
+  }
+
+  .fs-td--medium {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  .fs-td--small {
+    font-size: 1.3rem;
+    line-height: 2.3rem;
+  }
+
+  .fs-td--xsmall {
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+  }
+}
+
+@include respond-to(desktop-only) {
+  .fs--small {
+    line-height: 2rem;
+  }
+
+  .fs-d--xlarge {
+    font-size: 2rem;
+    line-height: 3rem;
+  }
+
+  .fs-d--medium {
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  .fs-d--small {
+    font-size: 1.3rem;
+    line-height: 2rem;
+  }
+
+  .fs-d--xsmall {
+    font-size: 1.1rem;
+    line-height: 1.6rem;
+  }
+}

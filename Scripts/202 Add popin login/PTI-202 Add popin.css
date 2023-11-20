@@ -1,0 +1,23 @@
+.dy-popin-login {
+  padding: 0;
+  max-width: 75%;
+  z-index: 200;
+}
+
+.dy-center-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.dy-top-right {
+  top: 0;
+  right: 0;
+}
+
+.dy-section {
+  padding: 2rem;
+  aspect-ratio: 1/1;
+}

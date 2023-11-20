@@ -1,0 +1,882 @@
+.no-text-transform {
+  text-transform: none;
+}
+
+.upper-case {
+  text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.inline-list {
+  font-size: 0;
+
+  li {
+    font-size: unset;
+    display: inline-block;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+  cursor: zoom-out;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
+/**
+ * Put this class on SVG
+ * Set the svg dimension with the font-size of the parent element
+ */
+
+/* svg */
+.icon-svg {
+  width: 1em;
+  height: 1em;
+
+  &.small-icon {
+    font-size: 1rem;
+  }
+
+  &.medium-icon {
+    font-size: 1.5rem;
+  }
+
+  &.large-icon {
+    font-size: 2rem;
+  }
+
+  &.xlarge-icon {
+    font-size: 3rem;
+  }
+
+  &.xxlarge-icon {
+    font-size: 4rem;
+  }
+
+  &.mega-icon {
+    font-size: 7rem;
+  }
+}
+
+.icon-reset {
+  transform: scale(-1, 1);
+}
+
+.icon-star {
+  stroke: $primary-color;
+  color: transparent;
+  fill: transparent;
+
+  &.icon-star--full {
+    color: $primary-color;
+    fill: $primary-color;
+  }
+
+  &.icon-star--half {
+    fill: $primary-color;
+
+    .dir-rtl & {
+      transform: scale(-1, 1);
+    }
+  }
+}
+
+.icon-zoom-more {
+  fill: transparent;
+}
+
+.icon-zoom-less {
+  color: transparent;
+}
+
+.icon-validation {
+  background-color: $error-color;
+  color: $error-color;
+  fill: white;
+
+  &.is-success {
+    fill: transparent;
+    background-color: $primary-color;
+    color: white !important;
+    border: none;
+  }
+}
+
+.icon-check-validity {
+  font-size: 1.5em;
+  color: transparent;
+  fill: $error-color;
+
+  &.icon-check--black {
+    fill: $primary-color;
+  }
+
+  &.is-valid {
+    color: $success-color;
+    fill: transparent;
+
+    &.icon-check--black {
+      color: $primary-color;
+    }
+  }
+}
+
+.icon-love {
+  fill: none;
+
+  &.is-active {
+    fill: $primary-color;
+
+    .add-label {
+      display: none;
+    }
+  }
+
+  &:not(.is-active) .remove-label {
+    display: none;
+  }
+}
+
+.icon-love.btn-cta.is-active,
+.icon-love.btn-banner.is-active {
+  background-color: white;
+  color: $primary-color;
+
+  &:not(.active-icon-only) {
+    border: white;
+  }
+
+  .icon-love {
+    fill: $primary-color;
+  }
+
+  @include has-hover {
+    &:hover .icon-love {
+      fill: white;
+    }
+  }
+}
+
+.btn-add-to-cart {
+  &:not(.is-added) {
+    .added {
+      display: none;
+    }
+  }
+
+  &.is-added {
+    .not-added {
+      display: none;
+    }
+  }
+}
+
+.no-fill {
+  fill: transparent;
+}
+
+/* img */
+.img-fill-width {
+  width: 100%;
+  height: auto;
+}
+
+/* img */
+.img-full-height {
+  width: auto;
+  height: 100%;
+}
+
+/* img */
+.img-auto {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+/* img */
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* img */
+.img-cover--top {
+  object-position: top;
+}
+
+.img-cover--center {
+  object-position: center;
+}
+
+.background-cover {
+  background-size: cover;
+  background-position: center center;
+}
+
+/* ul */
+.bullet-list,
+.dashed-list {
+  li::before {
+    display: inline-block;
+    margin: 0 5px;
+  }
+}
+
+.bullet-list li::before {
+  content: "•";
+}
+
+.dashed-list li::before {
+  content: "-";
+}
+
+.curved {
+  border-radius: 5px;
+}
+
+.curved--medium {
+  border-radius: 10px;
+}
+
+.curved--medium-bottom {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.curved--large {
+  border-radius: 15px;
+}
+
+.rounded {
+  border-radius: 50%;
+}
+
+.bordered {
+  border: 1px solid;
+}
+
+.bordered--grey {
+  border: 1px solid $ultralightgrey-color;
+}
+
+.bordered--medium-grey {
+  border: 1px solid $grey-color;
+}
+
+.bordered-dashed {
+  border-style: dashed;
+}
+
+.left-separator {
+  border-left: 1px solid rgba($secondary-color, 0.1);
+}
+
+.right-separator {
+  border-right: 1px solid rgba($secondary-color, 0.1);
+}
+
+.top-separator {
+  border-top: 1px solid rgba($secondary-color, 0.1);
+}
+
+.bottom-separator {
+  border-bottom: 1px solid rgba($secondary-color, 0.1);
+}
+
+.left-separator-dark {
+  border-left: 1px solid $primary-color;
+}
+
+.right-separator-dark {
+  border-right: 1px solid $primary-color;
+}
+
+.top-separator-dark {
+  border-top: 1px solid $primary-color;
+}
+
+.bottom-separator-dark {
+  border-bottom: 1px solid $primary-color;
+}
+
+.shadow-top--small {
+  box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+.simple-link {
+  border: none;
+  background: none;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+
+  @include has-hover {
+    &:hover,
+    a:hover &:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+}
+
+.reverse-link {
+  border: none;
+  background: none;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+
+  @include has-hover {
+    &:hover,
+    a:hover &:not(:disabled) {
+      text-decoration: none;
+    }
+  }
+}
+
+.simple-link,
+.reverse-link {
+  &.is-disabled {
+    color: $grey-color;
+
+    &.text-white {
+      color: $grey-color;
+    }
+  }
+
+  @include has-hover {
+    &:not(:disabled):hover,
+    a:hover &:not(:disabled) {
+      color: $primary-color-hover;
+
+      .text-white &,
+      &.text-white {
+        color: $lightgrey-color;
+      }
+    }
+  }
+}
+
+.text-white {
+  color: white;
+}
+
+.text-primary {
+  color: $primary-color;
+}
+
+.text-conversion {
+  color: $conversion-color;
+}
+
+.text-grey-secondary {
+  color: $grey-color;
+}
+
+.text-grey-light {
+  color: $ultralightgrey-color;
+}
+
+.text-grey-dark {
+  color: $darkgrey-color;
+}
+
+.text-grey-ultra-dark {
+  color: $grey-copy-color;
+}
+
+.bg-primary {
+  background-color: $primary-color;
+}
+
+.bg-conversion {
+  background-color: $conversion-color;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.bg-warning {
+  background-color: $warning-color;
+}
+
+.bg-grey {
+  background-color: $grey-color;
+}
+
+.bg-grey-light {
+  background-color: $lightgrey-color;
+}
+
+.bg-grey-ultralight {
+  background-color: $ultralightgrey-color;
+
+  @include has-hover {
+    &-hover:hover {
+      background-color: $ultralightgrey-color;
+    }
+  }
+}
+
+.bg-gradient--dark {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.35)
+  );
+}
+
+.bg-overlay-light {
+  background: linear-gradient(
+    to bottom,
+    rgba($secondary-color, 0),
+    rgba($secondary-color, 0.9)
+  );
+}
+
+.bg-overlay-dark {
+  background: linear-gradient(
+    to bottom,
+    rgba($primary-color, 0),
+    rgba($primary-color, 0.9)
+  );
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.dir-ltr {
+  direction: ltr;
+}
+
+.dir-rtl {
+  direction: rtl;
+}
+
+.is-error {
+  color: $error-color !important;
+}
+
+.is-success {
+  color: $success-color !important;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.transition-transform {
+  will-change: transform;
+  transition: transform 0.3s;
+}
+
+.transition-opacity {
+  transition: opacity 0.3s;
+}
+
+.is-folded-down {
+  transform: translateY(100%);
+}
+
+.opacity0 {
+  opacity: 0;
+}
+
+.opacity--small {
+  opacity: 0.3;
+}
+
+.opacity--medium {
+  opacity: 0.5;
+}
+
+.opacity--large {
+  opacity: 0.7;
+}
+
+.opacity--strong {
+  opacity: 0.9;
+}
+
+.opacity1 {
+  opacity: 1;
+}
+
+/**
+ * Use this class for ADA compliance text to hide
+ * https://developer.paciellogroup.com/blog/2012/05/html5-accessibility-chops-hidden-and-aria-hidden/
+ */
+.visually-hidden {
+  border: 0 !important;
+  clip-path: inset(100%);
+  clip: rect(1px 1px 1px 1px) !important; /* IE 6/7 */
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  height: 1px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+}
+
+.no-empty::after {
+  content: "\200b";
+}
+
+.visibility-hidden {
+  visibility: hidden;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.white-space-wrap {
+  white-space: normal;
+}
+
+.word-break {
+  overflow-wrap: anywhere; /* all browsers but safari */
+  word-break: break-word; /* safari */
+}
+
+.l-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.valign-top {
+  vertical-align: top;
+}
+
+.valign-middle {
+  vertical-align: middle;
+}
+
+.valign-bottom {
+  vertical-align: bottom;
+}
+
+.valign-sub {
+  vertical-align: sub;
+}
+
+/* stylelint-disable property-no-vendor-prefix */
+.no-select {
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+}
+
+.no-appearence {
+  -webkit-appearance: none;
+}
+/* stylelint-enable property-no-vendor-prefix */
+
+.above {
+  z-index: 1;
+}
+
+.below {
+  z-index: 0;
+}
+
+.z-overlay {
+  z-index: z(overlay);
+}
+
+.pointer-none {
+  pointer-events: none;
+}
+
+.pointer-auto {
+  pointer-events: auto;
+}
+
+.inline-markdown-wrapper {
+  // override markdown balises rules
+  p,
+  div {
+    display: inline;
+  }
+}
+
+// This class is used to manage text-ellipsis in flex element.
+// https://bitbucket.org/lacoste-ecom/lacoste/pull-requests/13742#:~:text=Flexbox%20and%20Truncated%20Text%20%7C%20CSS%2DTricks
+.min-width0 {
+  min-width: 0;
+}
+
+.min-height--max-content {
+  min-height: max-content;
+}
+
+// Element need class flex and flex--col and a data-text in place of text content
+// Sample: <div class="flex flex--col bold-hover" data-text="{TEXT CONTENT}" />
+// https://css-tricks.com/bold-on-hover-without-the-layout-shift/
+.bold-hover::before,
+.bold-hover::after {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+}
+
+.bold-hover::after {
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-weight: 600;
+
+  @media speech {
+    display: none;
+  }
+}
+
+.close-icon {
+  font-size: 3rem;
+}
+
+.card-shadow--light {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+@include respond-to(mobile-only) {
+  .no-mob {
+    display: none !important;
+  }
+
+  .text-m-white {
+    color: white;
+  }
+
+  .text-m-primary {
+    color: $primary-color;
+  }
+
+  .text-m-grey-secondary {
+    color: $grey-color;
+  }
+
+  .text-m-center {
+    text-align: center;
+  }
+
+  .text-m-left {
+    text-align: left;
+  }
+
+  .bg-m-white {
+    background-color: white;
+  }
+
+  .bg-m-grey-light {
+    background-color: $ultralightgrey-color;
+  }
+
+  .bg-m-primary {
+    background-color: $primary-color;
+  }
+
+  .bg-m-gradient--dark {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.35)
+    );
+  }
+
+  .text-m-initial {
+    text-align: initial;
+  }
+
+  .text-m-right {
+    text-align: right;
+  }
+
+  .m-curved--medium {
+    border-radius: 10px;
+  }
+
+  .m-reverse-link {
+    border: none;
+    background: none;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+
+    @include has-hover {
+      &:hover,
+      a:hover &:not(:disabled) {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .shadow-top-m--small {
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .m-bottom-separator {
+    border-bottom: 1px solid rgba($secondary-color, 0.1);
+  }
+
+  .m-top-separator-dark {
+    border-top: 1px solid $primary-color;
+  }
+}
+
+@include respond-to(tablet-only) {
+  .no-tab {
+    display: none !important;
+  }
+}
+
+@include respond-to(mobile-and-tablet) {
+  .mt-reverse-link {
+    text-decoration: underline;
+  }
+
+  .text-mt-center {
+    text-align: center;
+  }
+
+  .bg-mt-white {
+    background-color: white;
+  }
+
+  .text-mt-primary {
+    color: $primary-color;
+  }
+}
+
+@include respond-to(tablet-and-desktop) {
+  .text-td-initial {
+    text-align: initial;
+  }
+
+  .text-td-left {
+    text-align: left;
+  }
+
+  .text-td-center {
+    text-align: center;
+  }
+
+  .text-td-right {
+    text-align: right;
+  }
+
+  .text-td-white {
+    color: white;
+  }
+
+  .text-td-primary {
+    color: $primary-color;
+  }
+
+  .text-td-grey-secondary {
+    color: $grey-color;
+  }
+
+  .bg-td-white {
+    background-color: white;
+  }
+
+  .bg-td-grey-light {
+    background-color: $ultralightgrey-color;
+  }
+
+  .bg-td-primary {
+    background-color: $primary-color;
+  }
+
+  .bg-td-dark--wide {
+    background-color: $primary-color;
+  }
+
+  .bg-td-gradient--dark {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.35)
+    );
+  }
+
+  .td-curved--medium {
+    border-radius: 10px;
+  }
+
+  .td-shadowed {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+@include respond-to(desktop-only) {
+  .no-desk {
+    display: none !important;
+  }
+
+  .text-d-initial {
+    text-align: initial;
+  }
+
+  .text-d-white {
+    color: white;
+  }
+
+  .curved-d {
+    border-radius: 10px;
+  }
+
+  .d-right-separator {
+    border-right: 1px solid rgba($secondary-color, 0.1);
+  }
+}
