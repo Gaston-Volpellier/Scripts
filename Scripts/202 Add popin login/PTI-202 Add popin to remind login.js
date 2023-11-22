@@ -1,3 +1,18 @@
+const items = [
+  {
+    iconSrc: "${Icon item 1}",
+    content: "${Content item 1}",
+  },
+  {
+    iconSrc: "${Icon item 2}",
+    content: "${Content item 2}",
+  },
+  {
+    iconSrc: "${Icon item 3}",
+    content: "${Content item 3}",
+  },
+];
+
 function sendTracking(dyExperienceName, dyTagName, dyVariationName, area) {
   console.log(
     "DY | Sending tracking: ",
@@ -53,71 +68,78 @@ function createElt(tag, oAttr, content) {
 
 const createPopinElt = () => {
   const newCtn = createElt("div", {
-    class: "dy-popin-login bg-white l-fixed dy-popin-fullscreen flex",
+    class:
+      "dy-popin-login bg-white l-fixed l-padding-around--medium dy-popin-fullscreen",
   });
 
-  ctnPicture = createElt("img", { src: "${Picture}", class: "" });
-  newCtn.appendChild(ctnPicture);
+  const innerCtn = createElt("div", {
+    class: "dy-popin-width",
+  });
+
+  const ctnPicture = createElt("img", {
+    src: "${Picture}",
+    class: "dy-img l-vmargin-row-mt-1",
+  });
+  innerCtn.appendChild(ctnPicture);
+  newCtn.appendChild(innerCtn);
 
   const section = createElt("section", {
-    class: "l-relative l-vmargin--small",
+    class: "l-relative l-vmargin--small l-padding-around--medium dy-section",
   });
 
+  // close X
+  const closeIcon = createElt(
+    "div",
+    { class: "cursor-pointer l-absolute dy-top-right" },
+    '<svg role="presentation" aria-hidden="true" class="icon-svg " style="font-size: 3.5rem"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688052685667/img/svg//critical.svg#icon-close"></use></svg>'
+  );
+  section.appendChild(closeIcon);
   const firstLine = createElt("div", {
-    class: "flex flex--space-between flex--align-center fs--medium text-black",
+    class: "",
   });
   section.appendChild(firstLine);
 
-  const firstContentDiv = createElt("div", {
-    class: "flex flex--justify-start",
+  const title = createElt(
+    "div",
+    { class: "fw-bold l-vmargin--medium dy-font--large" },
+    "${Title}"
+  );
+  firstLine.appendChild(title);
+
+  const mainContent = createElt("div", {
+    class: "l-vmargin--large font-medium",
   });
 
-  const userIcon = createElt(
-    "div",
-    { class: "l-hmargin--small" },
-    '<svg role="presentation" class="icon-svg l-icon-margin fs--xlarge"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688084394767/img/svg/critical.svg#icon-my-account"></use></svg>'
-  );
-  firstContentDiv.appendChild(userIcon);
+  //Loop through object
 
-  const firstContent = createElt("div", { class: "ff-semibold" }, "${Title}");
-  firstContentDiv.appendChild(firstContent);
-  firstLine.appendChild(firstContentDiv);
+  items.forEach((item) => {
+    // to align left remove justify center.
+    const iconDiv = createElt(
+      "div",
+      {
+        class: "flex flex--align-center flex--justify-center l-vmargin--xsmall",
+      },
+      '<svg role="presentation" class="icon-svg l-hmargin--large dy-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1700491094150/img/svg/non-critical.svg#' +
+        item.iconSrc +
+        '"></use></svg>'
+    );
+    const text = createElt(
+      "div",
+      { class: "font-medium text-start" },
+      item.content
+    );
+    iconDiv.appendChild(text);
 
-  const closeIcon = createElt(
-    "div",
-    { class: "cursor-pointer" },
-    '<svg role="presentation" aria-hidden="true" class="icon-svg " style="font-size: 3.5rem"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688052685667/img/svg//critical.svg#icon-close"></use></svg>'
-  );
-  firstLine.appendChild(closeIcon);
+    mainContent.appendChild(iconDiv);
+  });
 
-  newCtn.classList.add("dy-popin-fullscreen", "flex");
-  //   section.classList.remove("l-relative", "l-vmargin--small");
-  section.classList.add(
-    "dy-section",
-    "flex",
-    "flex--col",
-    "flex--justify-center",
-    "flex--align-center"
-  );
-  userIcon.classList.add("is-hidden");
-  closeIcon.classList.add("l-absolute", "dy-top-right");
-  firstContent.classList.add(
-    "dy-font--xlarge",
-    "l-vmargin--medium",
-    "font-large"
-  );
-
-  const mainContent = createElt(
-    "div",
-    { class: "l-vmargin--medium fs--medium font-medium" },
-    "${Content}"
-  );
-
-  const ctnButtons = createElt("div", { class: "flex flex--justify-center" });
+  // buttons section
+  const ctnButtons = createElt("div", {
+    class: "flex flex--justify-center",
+  });
 
   const btn1 = createElt("a", {
-    class:
-      "text-black btn--xsmall fs--medium l-hmargin--large btn-cta ff-normal font-label",
+    class: "btn-cta font-label l-hmargin--large l-vmargin--medium",
     href: "${Link Button 1}",
   });
   const btn1Span = createElt(
@@ -129,8 +151,7 @@ const createPopinElt = () => {
   ctnButtons.appendChild(btn1);
 
   const btn2 = createElt("a", {
-    class:
-      "text-black btn--xsmall text-white fs--medium l-hmargin--large btn-cta ff-normal font-label btn--primary",
+    class: "btn-cta btn--primary font-label l-hmargin--small l-vmargin--medium",
     href: "${Link Button 2}",
   });
   const btn2Span = createElt(
@@ -144,7 +165,7 @@ const createPopinElt = () => {
   section.appendChild(firstLine);
   section.appendChild(mainContent);
   section.appendChild(ctnButtons);
-  newCtn.appendChild(section);
+  innerCtn.appendChild(section);
 
   return {
     newCtn: newCtn,
