@@ -13,21 +13,14 @@ const items = [
   },
 ];
 
-function sendTracking(dyExperienceName, dyTagName, dyVariationName, area) {
-  console.log(
-    "DY | Sending tracking: ",
-    dyExperienceName,
-    dyTagName,
-    dyVariationName,
-    area
-  );
-  //   dataLayer.push({ event_data: null });
-  //   dataLayer.push({
-  //     event: "DY Event",
-  //     eventAction: dyVariationName,
-  //     eventCategory: dyTagName,
-  //     eventLabel: area,
-  //   });
+function sendTracking(dyTagName, dyVariationName, area) {
+  dataLayer.push({ event_data: null });
+  dataLayer.push({
+    event: "DY Event",
+    eventAction: dyVariationName,
+    eventCategory: dyTagName,
+    eventLabel: area,
+  });
 }
 
 function closePopin(
@@ -69,25 +62,33 @@ function createElt(tag, oAttr, content) {
 const createPopinElt = () => {
   const newCtn = createElt("div", {
     class:
-      "dy-popin-login bg-white l-fixed l-padding-around--medium dy-popin-fullscreen",
+      "dy-popin-login bg-white l-fixed l-padding-around--medium dy-popin-fullscreen flex",
   });
 
   const innerCtn = createElt("div", {
     class: "dy-popin-width",
   });
 
-  const ctnPicture = createElt("img", {
-    src: "${Picture}",
-    class: "dy-img l-vmargin-row-mt-1",
+  const ctnPictureDesk = createElt("img", {
+    src: "${Desktop Picture}",
+    class: "dy-img-desk l-vmargin-row-mt-1",
   });
-  innerCtn.appendChild(ctnPicture);
+  // Borrar
+  const pepe = "${Picture}";
+
+  const ctnPictureMobile = createElt("img", {
+    src: "${Mobile Picture}",
+    class: "dy-img-mob l-vmargin-row-mt-1",
+  });
+
+  innerCtn.appendChild(ctnPictureDesk);
+  innerCtn.appendChild(ctnPictureMobile);
   newCtn.appendChild(innerCtn);
 
   const section = createElt("section", {
     class: "l-relative l-vmargin--small l-padding-around--medium dy-section",
   });
 
-  // close X
   const closeIcon = createElt(
     "div",
     { class: "cursor-pointer l-absolute dy-top-right" },
@@ -110,14 +111,12 @@ const createPopinElt = () => {
     class: "l-vmargin--large font-medium",
   });
 
-  //Loop through object
-
   items.forEach((item) => {
     // to align left remove justify center.
     const iconDiv = createElt(
       "div",
       {
-        class: "flex flex--align-center flex--justify-center l-vmargin--xsmall",
+        class: "flex flex--align-center l-vmargin--xsmall dy-iconCtn",
       },
       '<svg role="presentation" class="icon-svg l-hmargin--large dy-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1700491094150/img/svg/non-critical.svg#' +
         item.iconSrc +
@@ -176,7 +175,6 @@ const createPopinElt = () => {
 };
 
 const init = () => {
-  console.log("DY | Initializing");
   const dyTagName = "${dyTagName}";
   const dyExperienceName = "${dyExperienceName}";
   const dyVariationName = "${dyVariationName}";
@@ -196,7 +194,6 @@ const init = () => {
     popupCtn.classList.add("popin-wrapper", "is-opened", "is-active");
   }
 
-  // events
   closeIcon.addEventListener("click", function () {
     closePopin(
       newCtn,

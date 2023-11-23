@@ -13,44 +13,25 @@ function isFirstCurrentStep(currentStep) {
   return currentStepParent.firstChild === currentStep;
 }
 
-function createNoLoggedCtn(userStatus) {
-  // Beware
-  // userStatus is FALSE when user is logged
+function createLoggedCtn() {
   const newCtn = eltFactory("div", {
     class: "dy-gwp-content padding-1 l-vmargin--xlarge",
   });
-  const styleNewCtn = userStatus ? "" : "background-color: #002D18";
-  let classNewCtn = "flex l-fill-width l-vmargin--small";
-  if (!userStatus) {
-    classNewCtn += " curved--medium l-padding-around";
-  }
-  const innerCtn = eltFactory("div", {
-    class: classNewCtn,
-    style: styleNewCtn,
-  });
+  const classNewCtn =
+    "flex l-fill-width l-vmargin--small curved--medium l-padding-around bg-primary";
+  const innerCtn = eltFactory("div", { class: classNewCtn });
 
-  const widthImg = userStatus ? "24" : "70";
-
-  const src = userStatus ? "${Club Lacoste Picture}" : "${Gift Picture}";
-  const styleImg = userStatus
-    ? ""
-    : "box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);";
-  const classImg = userStatus
-    ? "l-hmargin--small curved"
-    : "l-hmargin--large curved";
   const img = eltFactory("img", {
-    src: src,
-    width: widthImg,
-    height: widthImg,
-    class: classImg,
-    style: styleImg,
+    src: "${GiftPicture}",
+    width: "70",
+    height: "70",
+    class: "l-hmargin--large curved",
+    style: "box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);",
   });
   innerCtn.appendChild(img);
 
   const contentCtn = eltFactory("div", { class: "text-white " });
-  const title = userStatus
-    ? "${Title For Logged Users}"
-    : "${Title For Guest Users}";
+  const title = "${Logged users title}";
   if (title !== "") {
     const titleCtn = eltFactory("div", {
       class: "l-vmargin--xsmall fw-bold",
@@ -59,9 +40,7 @@ function createNoLoggedCtn(userStatus) {
 
     contentCtn.appendChild(titleCtn);
   }
-  const text = userStatus
-    ? "${Content For Logged Users}"
-    : "${Content For Guest Users}";
+  const text = "${Logged users content}";
   if (text !== "") {
     const textCtn = eltFactory("div", {
       class: "font-small",
@@ -100,7 +79,6 @@ const replaceLogin = () => {
       }
     });
 
-    console.log("DY | This is the button: ", buttonElement);
     const pictContainer = eltFactory("div", {
       class:
         "flex flex--justify-center flex--align-center bg-grey l-overflow-hidden dy-pictBackground",
@@ -119,7 +97,7 @@ const replaceLogin = () => {
     const blockLoginH3 = eltFactory("h3", {
       class: "fw-bold",
     });
-    blockLoginH3.innerHTML = "${Block Login Title}";
+    blockLoginH3.innerHTML = "${Title for guests}";
     blockLoginTitle.appendChild(blockLoginH3);
     section.appendChild(blockLoginTitle);
     blockLogin.appendChild(section);
@@ -130,7 +108,7 @@ const replaceLogin = () => {
     });
     const blockLoginContenP = eltFactory("h3");
 
-    blockLoginContenP.innerHTML = "${Block Login Content}";
+    blockLoginContenP.innerHTML = "${Content guests}";
     blockLoginContent.appendChild(blockLoginContenP);
     section.appendChild(blockLoginContent);
     section.appendChild(buttonElement);
@@ -164,10 +142,7 @@ function createBox(selector) {
         replaceLogin();
       } else {
         const refCtn = document.querySelector(".accordion");
-        refCtn.parentElement.insertBefore(
-          createNoLoggedCtn(!userStatus),
-          refCtn
-        );
+        refCtn.parentElement.insertBefore(createLoggedCtn(), refCtn);
         if (!userStatus) {
           const hr = eltFactory("hr", {
             class: "l-vmargin--xlarge",
