@@ -13,7 +13,7 @@ const items = [
   },
 ];
 
-function sendTracking(dyTagName, dyVariationName, area) {
+const sendTracking = (dyTagName, dyVariationName, area) => {
   dataLayer.push({ event_data: null });
   dataLayer.push({
     event: "DY Event",
@@ -21,16 +21,16 @@ function sendTracking(dyTagName, dyVariationName, area) {
     eventCategory: dyTagName,
     eventLabel: area,
   });
-}
+};
 
-function closePopin(
+const closePopin = (
   newCtn,
   popupCtn,
   dyExperienceName,
   dyTagName,
   dyVariationName,
   eventName
-) {
+) => {
   sendTracking(dyExperienceName, dyTagName, dyVariationName, eventName);
   if (popupCtn) {
     popupCtn.classList.remove("is-opened");
@@ -41,9 +41,9 @@ function closePopin(
   } else {
     newCtn.remove();
   }
-}
+};
 
-function createElt(tag, oAttr, content) {
+const createElt = (tag, oAttr, content) => {
   const elt = document.createElement(tag);
 
   if (oAttr) {
@@ -57,7 +57,7 @@ function createElt(tag, oAttr, content) {
   }
 
   return elt;
-}
+};
 
 const createPopinElt = () => {
   const newCtn = createElt("div", {
@@ -73,8 +73,6 @@ const createPopinElt = () => {
     src: "${Desktop Picture}",
     class: "dy-img-desk l-vmargin-row-mt-1",
   });
-  // Borrar
-  const pepe = "${Picture}";
 
   const ctnPictureMobile = createElt("img", {
     src: "${Mobile Picture}",
@@ -86,7 +84,8 @@ const createPopinElt = () => {
   newCtn.appendChild(innerCtn);
 
   const section = createElt("section", {
-    class: "l-relative l-vmargin--small l-padding-around--medium dy-section",
+    class:
+      "l-relative l-vmargin--small l-padding-around--medium flex-d--col flex--space-around dy-section",
   });
 
   const closeIcon = createElt(
@@ -112,7 +111,6 @@ const createPopinElt = () => {
   });
 
   items.forEach((item) => {
-    // to align left remove justify center.
     const iconDiv = createElt(
       "div",
       {

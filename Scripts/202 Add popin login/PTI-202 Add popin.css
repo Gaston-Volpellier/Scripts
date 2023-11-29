@@ -3,7 +3,6 @@
 }
 
 .dy-popin-width {
-  /* max-width: 580px; */
   display: flex;
 }
 
@@ -30,6 +29,7 @@
 }
 
 .dy-section {
+  display: flex;
   padding: 2rem;
 }
 
@@ -48,6 +48,7 @@
   width: 50%;
   display: inline-block;
 }
+
 .dy-img-mob {
   display: none;
 }
@@ -55,6 +56,7 @@
 .dy-icon {
   font-size: 2.5rem;
 }
+
 .dy-iconCtn {
   padding-left: 20px;
 }
@@ -63,6 +65,7 @@
   .dy-popin-width {
     display: block;
   }
+
   .dy-img-desk {
     display: none;
   }
@@ -75,12 +78,16 @@
     padding: 0;
     max-width: 85%;
   }
+
   .dy-icon {
     font-size: 5rem;
   }
+
   .dy-section {
     padding-top: 2.5rem;
+    display: block;
   }
+
   .dy-iconCtn {
     padding-left: 0;
   }

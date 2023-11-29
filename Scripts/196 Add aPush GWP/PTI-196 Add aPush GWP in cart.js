@@ -1,33 +1,32 @@
 let count = 0;
 
-function eltFactory(type, attributes) {
+const eltFactory = (type, attributes) => {
   const elt = document.createElement(type);
   for (let attribute in attributes) {
     elt.setAttribute(attribute, attributes[attribute]);
   }
   return elt;
-}
+};
 
-function isFirstCurrentStep(currentStep) {
+const isFirstCurrentStep = (currentStep) => {
   const currentStepParent = currentStep.parentElement;
   return currentStepParent.firstChild === currentStep;
-}
+};
 
-function createLoggedCtn() {
+const createLoggedCtn = () => {
   const newCtn = eltFactory("div", {
     class: "dy-gwp-content padding-1 l-vmargin--xlarge",
   });
-  const classNewCtn =
-    "flex l-fill-width l-vmargin--small curved--medium l-padding-around bg-primary";
-  const innerCtn = eltFactory("div", { class: classNewCtn });
+  const innerCtn = eltFactory("div", {
+    class:
+      "flex l-fill-width l-vmargin--small curved--medium l-padding-around bg-primary flex--align-center",
+  });
 
   const img = eltFactory("img", {
     src: "${GiftPicture}",
-    width: "70",
-    height: "70",
-    class: "l-hmargin--large curved",
-    style: "box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);",
+    class: "l-hmargin--large curved dy-image",
   });
+
   innerCtn.appendChild(img);
 
   const contentCtn = eltFactory("div", { class: "text-white " });
@@ -54,7 +53,7 @@ function createLoggedCtn() {
   newCtn.appendChild(innerCtn);
 
   return newCtn;
-}
+};
 
 const replaceLogin = () => {
   const blockLogin = document.querySelector(".cart-login-block");
@@ -83,6 +82,8 @@ const replaceLogin = () => {
       class:
         "flex flex--justify-center flex--align-center bg-grey l-overflow-hidden dy-pictBackground",
     });
+    if (buttonElement) buttonElement.firstChild.innerHTML = "${Button text}";
+
     blockLogin.insertBefore(pictContainer, buttonElement);
 
     const section = eltFactory("section", {
@@ -95,7 +96,7 @@ const replaceLogin = () => {
       class: "l-vmargin--xsmall l-vmargin--large",
     });
     const blockLoginH3 = eltFactory("h3", {
-      class: "fw-bold",
+      class: "fw-bold text-center",
     });
     blockLoginH3.innerHTML = "${Title for guests}";
     blockLoginTitle.appendChild(blockLoginH3);
@@ -109,6 +110,7 @@ const replaceLogin = () => {
     const blockLoginContenP = eltFactory("h3");
 
     blockLoginContenP.innerHTML = "${Content guests}";
+
     blockLoginContent.appendChild(blockLoginContenP);
     section.appendChild(blockLoginContent);
     section.appendChild(buttonElement);
@@ -116,12 +118,10 @@ const replaceLogin = () => {
 };
 
 function getUserStatus() {
-  console.log("Getting user status", dataLayer);
   for (i = dataLayer.length - 1; i >= 0; i--) {
     for (let prop in dataLayer[i]) {
       if (prop === "user_data") {
         if (dataLayer[i][prop].hasOwnProperty("user_id")) {
-          console.log("DY | Is logged! ", i, dataLayer[i][prop]);
           return true;
         }
       }
@@ -154,7 +154,7 @@ function createBox(selector) {
   }
 }
 
-function mutationCallback(mutationsList) {
+const mutationCallback = (mutationsList) => {
   for (let mutation of mutationsList) {
     if (mutation.removedNodes) {
       if (mutation.removedNodes.length > 0) {
@@ -176,15 +176,15 @@ function mutationCallback(mutationsList) {
       }
     }
   }
-}
+};
 
-function createMutationObserver(currentStep) {
+const createMutationObserver = (currentStep) => {
   const config = { childList: true, subtree: true, attributes: true };
   const observer = new MutationObserver(mutationCallback);
   observer.observe(currentStep, config);
-}
+};
 
-function init() {
+const init = () => {
   const gwpContent = document.querySelector(".dy-gwp-content");
   if (!gwpContent) {
     const currentStep = document.querySelector(".step-current");
@@ -198,7 +198,7 @@ function init() {
       }
     }
   }
-}
+};
 
 try {
   init();
