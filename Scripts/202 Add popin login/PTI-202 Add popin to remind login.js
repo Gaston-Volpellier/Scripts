@@ -1,15 +1,15 @@
 const items = [
   {
-    iconSrc: "${Icon item 1}",
     content: "${Content item 1}",
+    iconPath: "${Path 1}",
   },
   {
-    iconSrc: "${Icon item 2}",
     content: "${Content item 2}",
+    iconPath: "${Path 2}",
   },
   {
-    iconSrc: "${Icon item 3}",
     content: "${Content item 3}",
+    iconPath: "${Path 3}",
   },
 ];
 
@@ -85,7 +85,7 @@ const createPopinElt = () => {
 
   const section = createElt("section", {
     class:
-      "l-relative l-vmargin--small l-padding-around--medium flex-d--col flex--space-around dy-section",
+      "l-relative l-vmargin--small l-padding-around--medium flex--col flex--space-around dy-section",
   });
 
   const closeIcon = createElt(
@@ -110,16 +110,34 @@ const createPopinElt = () => {
     class: "l-vmargin--large font-medium",
   });
 
+  const subTitleCtn = createElt("div");
+  const subTitle = createElt(
+    "div",
+    { class: "font-medium l-vmargin--small fw-bold " },
+    "${Subtitle}"
+  );
+
+  subTitleCtn.appendChild(subTitle);
+  mainContent.appendChild(subTitleCtn);
+
   items.forEach((item) => {
-    const iconDiv = createElt(
-      "div",
-      {
-        class: "flex flex--align-center l-vmargin--xsmall dy-iconCtn",
-      },
-      '<svg role="presentation" class="icon-svg l-hmargin--large dy-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1700491094150/img/svg/non-critical.svg#' +
-        item.iconSrc +
-        '"></use></svg>'
-    );
+    const iconDiv = createElt("div", {
+      class: "flex flex--align-center l-vmargin--xsmall dy-iconCtn",
+    });
+
+    const SVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    SVG.setAttribute("role", "presentation");
+    SVG.setAttribute("class", "l-hmargin--large dy-icon-style");
+    SVG.setAttribute("fill", "none");
+    SVG.setAttribute("viewBox", "0 0 24 24");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttributeNS(null, "d", item.iconPath);
+    path.setAttribute("fill", "#002D18");
+
+    SVG.appendChild(path);
+    iconDiv.appendChild(SVG);
+
     const text = createElt(
       "div",
       { class: "font-medium text-start" },
@@ -135,40 +153,43 @@ const createPopinElt = () => {
     class: "flex flex--justify-center",
   });
 
-  const btn1 = createElt("a", {
-    class: "btn-cta font-label l-hmargin--large l-vmargin--medium",
-    href: "${Link Button 1}",
-  });
-  const btn1Span = createElt(
-    "span",
-    { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
-    "${Text Button 1}"
-  );
-  btn1.appendChild(btn1Span);
-  ctnButtons.appendChild(btn1);
-
-  const btn2 = createElt("a", {
+  const btn = createElt("a", {
     class: "btn-cta btn--primary font-label l-hmargin--small l-vmargin--medium",
-    href: "${Link Button 2}",
+    href: "${Link Button}",
   });
-  const btn2Span = createElt(
+  const btnSpan = createElt(
     "span",
     { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
-    "${Text Button 2}"
+    "${Text Button}"
   );
-  btn2.appendChild(btn2Span);
-  ctnButtons.appendChild(btn2);
+  btn.appendChild(btnSpan);
+  ctnButtons.appendChild(btn);
+
+  const hyperTextCtn = createElt("div", {
+    class: "flex flex--justify-center",
+  });
+  const link = createElt("a", {
+    href: "${hyperText link}",
+  });
+  const hyperText = createElt(
+    "span",
+    { class: "reverse-link font-small" },
+    "${hyperText text}"
+  );
+  link.appendChild(hyperText);
+  hyperTextCtn.appendChild(link);
 
   section.appendChild(firstLine);
   section.appendChild(mainContent);
   section.appendChild(ctnButtons);
+  section.appendChild(hyperTextCtn);
   innerCtn.appendChild(section);
 
   return {
     newCtn: newCtn,
     closeIcon: closeIcon,
-    btn1: btn1,
-    btn2: btn2,
+    btn: btn,
+    hyperText: hyperText,
   };
 };
 
@@ -182,8 +203,8 @@ const init = () => {
   const popinElt = createPopinElt();
   const newCtn = popinElt.newCtn;
   const closeIcon = popinElt.closeIcon;
-  const btn1 = popinElt.btn1;
-  const btn2 = popinElt.btn2;
+  const btn = popinElt.btn;
+  const hyperText = popinElt.hyperText;
 
   if (popupCtn) {
     const popupInnerCtn = createElt("div", { class: "dy-center-screen" });
@@ -218,12 +239,17 @@ const init = () => {
     });
   }
 
-  btn1.addEventListener("click", function () {
-    sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn1");
+  btn.addEventListener("click", function () {
+    sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn");
   });
 
-  btn2.addEventListener("click", function () {
-    sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn2");
+  hyperText.addEventListener("click", function () {
+    sendTracking(
+      dyExperienceName,
+      dyTagName,
+      dyVariationName,
+      "click_on_hyper"
+    );
   });
 };
 
