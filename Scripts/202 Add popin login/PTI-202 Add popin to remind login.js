@@ -110,19 +110,18 @@ const createPopinElt = () => {
     class: "l-vmargin--large font-medium",
   });
 
-  const subTitleCtn = createElt("div");
   const subTitle = createElt(
     "div",
     { class: "font-medium l-vmargin--small fw-bold " },
     "${Subtitle}"
   );
 
-  subTitleCtn.appendChild(subTitle);
-  mainContent.appendChild(subTitleCtn);
+  mainContent.appendChild(subTitle);
 
   items.forEach((item) => {
     const iconDiv = createElt("div", {
-      class: "flex flex--align-center l-vmargin--xsmall dy-iconCtn",
+      class:
+        "flex flex--align-center l-vmargin--xsmall flex-mt--justify-start flex--justify-center dy-iconCtn",
     });
 
     const SVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
