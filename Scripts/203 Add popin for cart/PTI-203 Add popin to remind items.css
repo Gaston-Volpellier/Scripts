@@ -1,0 +1,21 @@
+.dy-popin-login {
+  padding: 1rem 2rem;
+  z-index: 200;
+}
+
+.dy-popin-login.dy-arrow:before {
+  content: " ";
+  position: absolute;
+  left: var(--dy-left);
+  top: 0;
+  display: inline-block;
+  width: ${Arrow Size}rem;
+  height: ${Arrow Size}rem;
+  background-color: white;
+  transform: translate(0%, -50%) rotate(-45deg);
+}
+
+.iconSize{
+  font-size: 2.5rem;
+}
+
