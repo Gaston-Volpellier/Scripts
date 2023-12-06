@@ -63,19 +63,6 @@
   padding-left: 20px;
 }
 
-@media only screen and (min-width: 1190px) {
-  .dy-iconCtn {
-    padding-left: 0px;
-  }
-}
-
-@media only screen and (max-width: 1024px) {
-  .dy-icon-style {
-    height: 5rem;
-    width: 5rem;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .dy-popin-width {
     display: block;
@@ -92,11 +79,6 @@
   .dy-popin-login.dy-popin-fullscreen {
     padding: 0;
     max-width: 85%;
-  }
-
-  .dy-icon-style {
-    height: 3rem;
-    width: 3rem;
   }
 
   .dy-section {

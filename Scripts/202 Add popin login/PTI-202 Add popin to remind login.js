@@ -13,13 +13,13 @@ const items = [
   },
 ];
 
-const sendTracking = (dyTagName, dyVariationName, area) => {
+const sendTracking = (dyExperienceName, dyTagName, dyVariationName, area) => {
   dataLayer.push({ event_data: null });
   dataLayer.push({
     event: "DY Event",
-    eventAction: dyVariationName,
-    eventCategory: dyTagName,
-    eventLabel: area,
+    eventAction: dyTagName,
+    eventCategory: "DY Smart Action",
+    eventLabel: dyVariationName + " - " + area,
   });
 };
 
@@ -107,7 +107,7 @@ const createPopinElt = () => {
   firstLine.appendChild(title);
 
   const mainContent = createElt("div", {
-    class: "l-vmargin--large font-medium",
+    class: "l-vmargin--large font-medium dy-main-content",
   });
 
   const subTitle = createElt(
@@ -120,13 +120,12 @@ const createPopinElt = () => {
 
   items.forEach((item) => {
     const iconDiv = createElt("div", {
-      class:
-        "flex flex--align-center l-vmargin--xsmall flex-mt--justify-start flex--justify-center dy-iconCtn",
+      class: "flex flex--align-center l-vmargin--xsmall dy-iconCtn",
     });
 
     const SVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     SVG.setAttribute("role", "presentation");
-    SVG.setAttribute("class", "l-hmargin--large dy-icon-style");
+    SVG.setAttribute("class", "l-hmargin--small dy-icon-style");
     SVG.setAttribute("fill", "none");
     SVG.setAttribute("viewBox", "0 0 24 24");
 
