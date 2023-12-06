@@ -1,0 +1,325 @@
+/* ==========================================================================
+   #CSS VARIABLES
+   ========================================================================== */
+
+/* stylelint-disable at-rule-empty-line-before, custom-property-empty-line-before, length-zero-no-unit */
+
+@use "sass:map";
+
+:root {
+  --mq-keys: #{map.keys($mediaqueries)};
+  @each $key, $mediaquery in $mediaqueries {
+    --mq-#{$key}: #{$mediaquery};
+  }
+  --scrollbar-width: 0px;
+  --vh: 1vh; // Value updated on resize
+  --vh-static: 1vh; // Value set on init and never updated
+  --richmenu-height: #{$richmenu-min-height};
+  --focus-color: #{$primary-color};
+  --breakpoint-mobile: #{$breakpoint-mobile};
+  -webkit-font-smoothing: antialiased;
+  --optional: "(Optional)";
+  --top-banner-height: 0px;
+  --header-menu-height: #{$header-menu-height};
+  --header-height: #{$d-header-height};
+  --header-height-with-top-banner: calc(
+    var(--header-height) + var(--top-banner-height)
+  );
+  --header-height-with-menu: calc(
+    var(--header-height) + var(--header-menu-height)
+  );
+  --header-height-with-all: calc(
+    var(--header-height-with-menu) + var(--top-banner-height)
+  );
+}
+
+@include respond-to(tablet-only) {
+  :root {
+    /* Overrides css-variables scrollbar width calculation which causes layout issues in meta browsers, scrollbars never have a width on tablets */
+    --scrollbar-width: 0px !important;
+    --header-height: #{$mt-header-height};
+    --header-height-with-menu: #{$mt-header-height};
+  }
+}
+
+@include respond-to(mobile-only) {
+  :root {
+    /* Overrides css-variables scrollbar width calculation which causes layout issues in meta browsers, scrollbars never have a width on mobile */
+    --scrollbar-width: 0px !important;
+    --header-height: #{$mt-header-height};
+    --search-bar-height: #{$mt-search-bar-height};
+    --header-height-with-menu: calc(
+      var(--header-height) + var(--search-bar-height)
+    );
+  }
+}
+
+@include respond-to(tablet-and-desktop) {
+  :root {
+    --scrollbar-width: 17px;
+  }
+}
+
+@include respond-to(mobile-only) {
+  :root {
+    --header-search-bar-height: #{$mt-search-bar-height};
+  }
+}
+/* stylelint-enable */
+
+/* ==========================================================================
+   #BASE / RESET
+   ========================================================================== */
+
+/* stylelint-disable selector-max-universal */
+* {
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+
+  &:focus-visible {
+    outline: $primary-color dotted 0.1rem;
+  }
+}
+/* stylelint-enable */
+
+html {
+  font: #{$html-font-size}px $regular-font-family;
+  font-weight: normal;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-text-size-adjust: 100%;
+  color: $primary-color;
+  background-color: white;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  /* stylelint-disable */
+  &.lock-scroll {
+    overflow: hidden;
+  }
+
+  // hack to force no scroll on ios
+  @include respond-to(mobile-and-tablet) {
+    &.touchevents {
+      body {
+        position: static;
+        top: 0;
+      }
+
+      &.lock-scroll body {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    }
+
+    &.search-panel--opened,
+    &.popin-hides-page {
+      overflow: unset !important;
+      overscroll-behavior: none;
+
+      body {
+        position: static !important;
+        height: unset !important;
+        min-height: calc((var(--vh, 1vh) * 100));
+
+        &:not(.no-scroll-refresh) {
+          overflow: unset !important;
+        }
+
+        &.no-scroll-refresh {
+          overflow: hidden;
+        }
+      }
+
+      .popin-wrapper:not(.is-active) {
+        display: none;
+      }
+    }
+
+    &.popin-hides-page {
+      body:not(.didomi-popup-open)
+        > *:not(.popin-container):not(.notification-wrapper):not(
+          .hides-page--visible
+        ) {
+        display: none;
+      }
+    }
+
+    &.search-panel--opened {
+      body:not(.didomi-popup-open)
+        > *:not(.popin-container):not(.notification-wrapper):not(
+          .top-banner
+        ):not(.header) {
+        display: none;
+      }
+
+      .top-banner,
+      .header,
+      .popin-wrapper.hides-page {
+        position: sticky;
+      }
+    }
+  }
+  /* stylelint-enable */
+}
+
+::selection {
+  background-color: $primary-color;
+  color: $secondary-color;
+  text-shadow: none;
+}
+
+/* stylelint-disable selector-max-universal */
+.bg-primary *::selection {
+  background-color: $secondary-color;
+  color: $primary-color;
+  text-shadow: none;
+}
+/* stylelint-enable */
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  @include has-hover {
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+  }
+}
+
+b,
+strong {
+  font-weight: $bold;
+}
+
+i {
+  font-style: italic;
+}
+
+hr {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid $grey-color;
+  background-color: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-appearance: button;
+}
+
+input {
+  font-family: $regular-font-family;
+}
+
+img {
+  display: inline-block; // Fix lazyload problem
+}
+
+// TODO TMP HACK to avoid svg swallowing click event
+// https://stackoverflow.com/questions/24078524/svg-click-events-not-firing-bubbling-when-using-use-element
+svg,
+use {
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   #GLOBAL-LAYOUT
+   ========================================================================== */
+
+.main-container {
+  position: relative;
+  padding-top: calc(var(--header-height-with-all) - 1px);
+}
+
+.page-section {
+  position: relative;
+  min-height: calc(
+    100vh - 500px
+  ); // Always fill a minimal space to have footer at the bottom
+}
+
+/* ==========================================================================
+   #GLOBAL-CLASS
+   ========================================================================== */
+
+.icon-logo-crocodile {
+  color: $secondary-color;
+  fill: $primary-color;
+}
+
+.icon-logo-crocodile--color {
+  color: #105a33;
+  fill: #e72734;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z(overlay);
+  width: 100%;
+  height: calc((var(--vh, 1vh) * 100));
+  background-color: rgba(41, 41, 41, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+
+  &.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* ==========================================================================
+   #RESPONSIVE
+   ========================================================================== */
+@include respond-to(tablet-and-desktop) {
+  .bg-section--var {
+    background: var(--background) no-repeat top center;
+    background-size: 100% 700px;
+  }
+}
+
+@include respond-to(tablet-only) {
+  .main-container {
+    padding-top: var(--header-height-with-top-banner);
+  }
+}
+
+// IOS 15 - fix lock-scroll bug - when ios address bar not visible
+/* stylelint-disable selector-no-qualifying-type */
+@supports (-webkit-touch-callout: none) {
+  html.touchevents.lock-scroll {
+    height: calc((var(--vh, 1vh) * 100));
+  }
+}
+/* stylelint-enable */

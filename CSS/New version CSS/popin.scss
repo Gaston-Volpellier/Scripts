@@ -1,0 +1,432 @@
+.popin-wrapper,
+.header-panel {
+  --h-padding: 50px;
+  --v-padding: 25px;
+
+  .popin-vmargin {
+    margin-bottom: var(--v-padding);
+  }
+
+  .popin-vpadding {
+    padding-top: var(--v-padding);
+    padding-bottom: var(--v-padding);
+  }
+
+  .popin-hpadding {
+    padding-left: var(--h-padding);
+    padding-right: var(--h-padding);
+  }
+}
+
+.popin-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: z(popover);
+  width: 100%;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.4s ease;
+
+  .popin-content {
+    .l-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 2; // always above content
+    }
+
+    &.l-overflow-hidden {
+      overflow: hidden;
+    }
+  }
+
+  &:not(.hides-page) {
+    position: fixed;
+    height: calc(var(--vh, 1vh) * 100);
+
+    .popin-content {
+      height: 100%;
+      overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  &.popin--no-anim {
+    transition: none;
+  }
+
+  &.is-active {
+    z-index: z(popover) + 1;
+  }
+
+  &.is-mandatory {
+    z-index: z(popover) + 2;
+  }
+
+  &.popin--under-header,
+  &.popin--inside {
+    // TODO : LDF-14684 - clean unused popin--inside class
+    z-index: z(popin);
+    top: calc(var(--header-height-with-top-banner) - 1px);
+    height: calc(
+      var(--vh, 1vh) * 100 - var(--header-height-with-top-banner) + 1px
+    );
+
+    &.is-active {
+      z-index: z(popin) + 1;
+    }
+  }
+
+  .popin {
+    position: relative;
+    background-color: white;
+    flex-shrink: 0;
+  }
+
+  .l-popin-close {
+    position: absolute;
+    z-index: 3;
+    top: 15px;
+    right: calc(1 * #{$grid-column-width});
+  }
+
+  &.popin--alert {
+    z-index: z(popover) + 2;
+
+    .popin {
+      border-radius: 8px;
+      padding: 25px 30px;
+      max-width: 50%;
+      box-shadow: 0 4px 15px rgba(black, 0.2);
+      overflow: hidden;
+    }
+  }
+
+  &.popin--not-closable {
+    .popin-close-button {
+      display: none;
+    }
+  }
+
+  &.popin--no-back-button {
+    .popin-back-button {
+      display: none;
+    }
+  }
+
+  .l-popin-back {
+    position: fixed;
+    z-index: 2;
+    top: 20px;
+    left: 0;
+
+    .icon-svg {
+      font-size: 3rem;
+    }
+  }
+
+  .icon-back {
+    font-size: 3rem;
+  }
+
+  .icon-close {
+    font-size: 4rem; // As it is an icon size, no need to use _typography class
+  }
+
+  .large-icon {
+    font-size: 2rem;
+  }
+
+  &.is-opened {
+    opacity: 1;
+
+    & ~ .popin--no-anim {
+      background-color: transparent;
+
+      .popin {
+        transition: transform 0s 0s, width 0.4s ease;
+      }
+    }
+  }
+
+  &.is-loading {
+    .popin-content {
+      overflow: hidden;
+    }
+
+    .l-popin-close {
+      opacity: 0;
+    }
+  }
+
+  &.popin-refit {
+    &:not(.popin--fill):not(.popin--dialog) .padding-1:not(.popin-hpadding) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .l-popin-close {
+      top: var(--v-padding);
+      right: var(--h-padding);
+    }
+
+    .l-popin-close-banner {
+      left: var(--h-padding);
+    }
+
+    &:not(.popin--no-padding) .popin-content-container {
+      padding-left: var(--h-padding);
+      padding-right: var(--h-padding);
+    }
+
+    &:not(.popin--alert) .popin-header-container,
+    .popin-footer {
+      padding: var(--v-padding) var(--h-padding);
+    }
+  }
+
+  .popin-header-image {
+    max-height: 300px;
+  }
+
+  .didomi-popup-open & {
+    display: none !important;
+  }
+}
+
+@include respond-to(mobile-and-tablet) {
+  .header-panel,
+  .popin-wrapper {
+    --h-padding: calc(1 * #{$grid-column-width});
+    --v-padding: 25px;
+  }
+
+  .popin-wrapper {
+    top: 0;
+    height: calc(var(--vh, 1vh) * 100);
+
+    &:not(.popin--alert) .popin {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.popin--alert .popin {
+      max-width: 95%;
+      padding: 15px;
+    }
+
+    &.popin-mt--centered .popin {
+      width: auto;
+      height: auto;
+    }
+
+    &.popin--floatable {
+      align-items: flex-end;
+
+      .popin {
+        height: auto;
+        max-height: 460px;
+        border-radius: 8px 8px 0 0;
+        overflow: auto;
+      }
+    }
+
+    &:not(.popin--no-slide) .popin {
+      transform: translate3d(0, 100%, 1px);
+      transition: transform 0.4s ease, width 0.4s ease;
+      will-change: transform;
+    }
+
+    &.popin--open-from-right .popin {
+      transform: translate3d(100%, 0, 1px);
+    }
+
+    &.is-opened .popin {
+      transform: translate3d(0, 0, 1px);
+    }
+
+    &.is-active {
+      z-index: z(popover);
+    }
+
+    &.hides-page {
+      position: static;
+      height: unset;
+      min-height: calc(var(--vh, 1vh) * 100);
+
+      &.popin-with-notif {
+        opacity: 0.99;
+      }
+
+      &.popin-with-keyboard .popin {
+        height: unset;
+        min-height: calc(var(--vh, 1vh) * 100);
+        max-height: none;
+
+        .popin-header {
+          position: sticky;
+          top: 0;
+          z-index: z(popover) + 3;
+        }
+      }
+
+      &:not(.popin-with-keyboard) .popin-content {
+        height: calc(var(--vh, 1vh) * 100);
+        overflow: auto;
+      }
+    }
+
+    .popin-footer .reverse-link {
+      padding-top: 0;
+    }
+  }
+}
+
+@include respond-to(tablet-and-desktop) {
+  .popin-td-hpadding {
+    padding-left: var(--h-padding);
+    padding-right: var(--h-padding);
+  }
+}
+
+@include respond-to(desktop-only) {
+  .popin-wrapper {
+    height: 100vh;
+
+    .l-vmargin-row-2 {
+      margin-bottom: var(--v-padding);
+    }
+
+    .popin-d-hpadding {
+      padding-left: var(--h-padding);
+      padding-right: var(--h-padding);
+    }
+
+    &.popin--without-scroll .popin-content {
+      overflow: hidden;
+    }
+
+    &.popin-mt--centered {
+      &.is-opened::after {
+        content: none;
+      }
+    }
+
+    &.popin--simple {
+      .popin {
+        width: auto;
+        min-height: 250px;
+      }
+    }
+
+    &.popin--dialog {
+      --h-padding: 50px;
+      --v-padding: 40px;
+
+      .popin {
+        outline: 1px solid rgba(white, 0.35);
+
+        &::before {
+          content: "";
+          pointer-events: none;
+          position: absolute;
+          top: -1px;
+          bottom: -1px;
+          left: -1px;
+          right: -1px;
+          box-shadow: 0 4px 15px rgba(black, 0.2);
+        }
+      }
+    }
+
+    &.popin--floatable {
+      position: absolute;
+      height: 100%;
+      background: none;
+
+      .popin {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-width: 370px;
+        max-height: 370px;
+        height: auto;
+        border: 1px solid $grey-color;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+        border-radius: 8px;
+        overflow: auto;
+      }
+
+      &.is-active {
+        z-index: z(popover) + 1;
+      }
+    }
+
+    &.popin--fill {
+      .popin {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.modular-popin {
+      padding-top: var(--header-height-with-top-banner);
+    }
+
+    &.popin--open-from-bottom .popin {
+      transform: translate3d(0, 100%, 1px);
+      transition: transform 0.4s ease-out, width 0.4s ease;
+    }
+
+    &.is-opened .popin {
+      transform: translate3d(0, 0, 1px);
+    }
+
+    &.popin--panel {
+      justify-content: flex-end;
+
+      .popin {
+        width: 50%;
+        height: 100%;
+        transform: translate3d(100%, 0, 0);
+        transition: transform 0.6s ease-out, width 0.4s ease,
+          max-width 0.6s ease;
+      }
+
+      &.popin--small-panel {
+        .popin {
+          width: 35%;
+        }
+      }
+
+      &.popin--medium-width {
+        .popin {
+          max-width: 650px;
+        }
+      }
+
+      &.is-opened {
+        .popin {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+    }
+
+    /* TODO apply these rules to popin--panel once all panels have been refitted */
+    /* stylelint-disable */
+    &:not(.popin--fill):not(.popin--simple):not(.popin--no-shadow):not(
+        .popin--dialog
+      ):not(.popin--alert),
+    &.modular-popin {
+      .popin {
+        outline: 1px solid rgba(white, 0.35);
+        box-shadow: -2px 4px 15px rgba(black, 0.2);
+        outline: 1px solid rgba(white, 0.5);
+        overflow: hidden;
+      }
+    }
+    /* stylelint-enable */
+  }
+}

@@ -1,5 +1,4 @@
-// Tracking
-function sendTracking(dyExperienceName, dyTagName, dyVariationName, area) {
+const sendTracking = (dyExperienceName, dyTagName, dyVariationName, area) => {
   dataLayer.push({ event_data: null });
   dataLayer.push({
     event: "DY Event",
@@ -7,9 +6,9 @@ function sendTracking(dyExperienceName, dyTagName, dyVariationName, area) {
     eventCategory: "DY Smart Action",
     eventLabel: dyVariationName + " - " + area,
   });
-}
+};
 
-function closePopin(
+const closePopin = (
   newCtn,
   popupCtn,
   dyExperienceName,
@@ -17,7 +16,7 @@ function closePopin(
   dyVariationName,
   eventName,
   cb
-) {
+) => {
   sendTracking(dyExperienceName, dyTagName, dyVariationName, eventName);
   if (popupCtn) {
     popupCtn.classList.remove("is-opened");
@@ -32,9 +31,9 @@ function closePopin(
   if (typeof cb === "function") {
     cb();
   }
-}
+};
 
-function centeringElt(newCtn, btnLogin) {
+const centeringElt = (newCtn, btnLogin) => {
   const clientWidth = document.body.clientWidth;
   const btnLoginBounds = btnLogin.getBoundingClientRect();
   const newCtnWidth = newCtn.clientWidth;
@@ -51,9 +50,6 @@ function centeringElt(newCtn, btnLogin) {
 
   if (right <= 0) {
     right = clientWidth / 25;
-    /*if (window.matchMedia("(min-width: 1191px)").matches) {
-      right = 20;
-    }*/
   }
 
   beforeX =
@@ -65,9 +61,9 @@ function centeringElt(newCtn, btnLogin) {
   rootVar = document.querySelector(":root");
   rootVar.style.setProperty("--dy-left", beforeX);
   newCtn.setAttribute("style", "right: " + right + "px; top: " + top + "px;");
-}
+};
 
-let createElt = (tag, oAttr, content) => {
+const createElt = (tag, oAttr, content) => {
   const elt = document.createElement(tag);
 
   if (oAttr) {
@@ -83,61 +79,60 @@ let createElt = (tag, oAttr, content) => {
   return elt;
 };
 
-function createPopinElt() {
-  let section,
-    firstLine,
-    firstContentDiv,
-    userIcon,
-    firstContent,
-    closeIcon,
-    mainContent;
-  let ctnButtons, btn1, btn1Span;
-
-  newCtn = createElt("div", {
+const createPopinElt = () => {
+  const newCtn = createElt("div", {
     class:
       "dy-popin-login curved--large bg-white l-fixed font-small card-shadow--light dy-arrow ${Popin Desktop Size} ${Popin Mobile Tablet} ${Popin Mobile Size}",
   });
 
-  section = createElt("section", { class: "l-relative l-vmargin--small" });
+  const section = createElt("section", {
+    class: "l-relative l-vmargin--small",
+  });
 
-  firstLine = createElt("div", {
+  const firstLine = createElt("div", {
     class: "flex flex--space-between flex--align-center fs--medium text-black",
   });
   section.appendChild(firstLine);
 
-  firstContentDiv = createElt("div", { class: "flex flex--justify-start" });
+  const firstContentDiv = createElt("div", {
+    class: "flex flex--justify-start",
+  });
 
-  userIcon = createElt(
+  const userIcon = createElt(
     "div",
-    { class: "l-hmargin--small iconSize" },
+    { class: "l-hmargin--xsmall iconSize" },
     '<svg role="presentation" class="icon-svg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688084394767/img/svg/critical.svg#icon-my-account"></use></svg>'
   );
   firstContentDiv.appendChild(userIcon);
 
-  firstContent = createElt("div", { class: "fw-bold" }, "${Title}");
+  const firstContent = createElt("div", { class: "fw-bold" }, "${Title}");
   firstContentDiv.appendChild(firstContent);
   firstLine.appendChild(firstContentDiv);
 
-  closeIcon = createElt(
+  const closeIcon = createElt(
     "div",
     { class: "cursor-pointer" },
     '<svg role="presentation" aria-hidden="true" class="icon-svg " style="font-size: 3.5rem"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688052685667/img/svg//critical.svg#icon-close"></use></svg>'
   );
   firstLine.appendChild(closeIcon);
 
-  mainContent = createElt(
+  const mainContent = createElt(
     "div",
     { class: "l-vmargin--medium font-small" },
     "${Content}"
   );
 
-  ctnButtons = createElt("div", { class: "flex flex--justify-center" });
+  const ctnButtons = createElt("div", { class: "flex flex--justify-center" });
 
-  btn1 = createElt("a", {
+  const btn1 = createElt("a", {
     class: "btn-cta btn--primary font-label l-hmargin--small",
     href: "${Link Button 1}",
   });
-  btn1Span = createElt("span", { style: "" }, "${Text Button 1}");
+  const btn1Span = createElt(
+    "span",
+    { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
+    "${Text Button 1}"
+  );
   btn1.appendChild(btn1Span);
   ctnButtons.appendChild(btn1);
 
@@ -146,7 +141,11 @@ function createPopinElt() {
     href: "${Link Button 2}",
   });
 
-  const btn2Span = createElt("span", { style: "" }, "${Text Button 2}");
+  const btn2Span = createElt(
+    "span",
+    { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
+    "${Text Button 2}"
+  );
   btn2.appendChild(btn2Span);
   ctnButtons.appendChild(btn2);
 
@@ -161,15 +160,13 @@ function createPopinElt() {
     btn1: btn1,
     btn2: btn2,
   };
-}
+};
 
-let createPopin = () => {
-  const btnLogin = document.querySelector("ul.menu-icons .myaccount-wrapper");
-
+const init = () => {
   const dyTagName = "${dyTagName}";
   const dyExperienceName = "${dyExperienceName}";
   const dyVariationName = "${dyVariationName}";
-
+  const btnLogin = document.querySelector("ul.menu-icons .myaccount-wrapper");
   let popupCtn;
   let timeout;
 
@@ -198,7 +195,6 @@ let createPopin = () => {
     window.addEventListener("resize", reportWindowSize);
   }
 
-  // events
   closeIcon.addEventListener("click", function () {
     closePopin(
       newCtn,
@@ -214,13 +210,14 @@ let createPopin = () => {
   btn1.addEventListener("click", function () {
     sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn1");
   });
+
   btn2.addEventListener("click", function () {
     sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn2");
   });
 };
 
 try {
-  createPopin();
+  init();
 } catch (e) {
   console.log("DY | err", e);
 }
