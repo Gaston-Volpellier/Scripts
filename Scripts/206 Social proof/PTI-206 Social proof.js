@@ -13,27 +13,30 @@ const createElt = (tag, oAttr, content) => {
 
 const init = () => {
   const views = "${Views}";
+  const minimumViews = "${minimumViews}";
+  const text = "${Text}";
   const viewCount = parseInt(views);
+  const minimum = parseInt(minimumViews);
 
-  if (viewCount >= 50) {
+  if (viewCount >= minimum) {
+    const newText = text.replace("$$", "<b>${Views}</b>");
+
     const priceIndicator = document.querySelector(
       ".js-pdp-price.js-update-price-with-installments"
     ).parentElement;
 
     const ctn = createElt("div", {
-      class: "l-vmargin--small padding-m-1 l-padding--xsmall",
+      class: "padding-m-1 l-padding--xsmall",
     });
 
-    const text = createElt(
+    const textSpan = createElt(
       "span",
       { class: "font-small dy-text-warning" },
-      "&#8226 Cet article a été vu <b>${Views}</b> fois au cours des dernières 48h"
+      newText
     );
-    ctn.appendChild(text);
+    ctn.appendChild(textSpan);
 
     priceIndicator.insertAdjacentElement("afterend", ctn);
-  } else {
-    console.log("DY | The item views are less than 50, they are: ", viewCount);
   }
 };
 
