@@ -1,0 +1,7 @@
+.dy-transition {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.dy-btn.opacity--small:hover {
+  opacity: 0.5;
+}

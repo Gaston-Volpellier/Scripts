@@ -1,0 +1,32 @@
+.dy-transition {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.dy-btn.opacity--small:hover {
+  opacity: 0.5;
+}
+
+.dy-icon-style {
+  width: 24px;
+  height: 24px;
+}
+
+@media only screen and (min-width: 768px) {
+  .dy-flex-1 {
+    flex: 1;
+  }
+
+  .dy-block {
+    display: block;
+  }
+  .plp-sticky-visible .plp-sticky-filters .dy-icon-style {
+    color: white;
+  }
+}
+
+@media only screen and (max-width: 1190px) {
+  .dy-flex-wrap {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+}
