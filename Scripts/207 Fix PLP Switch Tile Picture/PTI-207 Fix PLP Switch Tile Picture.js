@@ -79,7 +79,7 @@ function addSwitchButton() {
   const packshotIconCtn = eltFactory("div", {
     class: "icon-box",
     width: "24px",
-    height: "auto",
+    height: "24px",
     title: "${PackShot Bubble Title}",
   });
   const packshotIcon = createElt(
@@ -95,12 +95,19 @@ function addSwitchButton() {
       (state === "packshot" ? "opacity--small" : ""),
     "data-dy": "model",
   });
-  const modelIcon = eltFactory("img", {
-    src: "${Model Icon}",
+  const modelIconCtn = eltFactory("div", {
+    class: "icon-box",
     width: "24px",
-    height: "auto",
+    height: "24px",
     title: "${Model Bubble Title}",
   });
+  const modelIcon = createElt(
+    "div",
+    { class: "l-hmargin--small" },
+    '<svg role="presentation" class="dy-icon-style"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1702386419154/img/svg/critical.svg#icon-my-account"></use></svg>'
+  );
+  modelIconCtn.appendChild(modelIcon);
+
   const toggleClass = function (elt) {
     let dataDy;
     if (elt.currentTarget.classList.contains("opacity--small")) {
@@ -115,7 +122,7 @@ function addSwitchButton() {
     }
   };
 
-  modelCtn.appendChild(modelIcon);
+  modelCtn.appendChild(modelIconCtn);
   packshotCtn.appendChild(packshotIconCtn);
 
   modelCtn.addEventListener("click", toggleClass);
