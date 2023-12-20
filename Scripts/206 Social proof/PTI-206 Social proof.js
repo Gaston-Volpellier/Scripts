@@ -1,3 +1,13 @@
+const sendTracking = (dyExperienceName, dyTagName, dyVariationName, area) => {
+  dataLayer.push({ event_data: null });
+  dataLayer.push({
+    event: "DY Event",
+    eventAction: dyTagName,
+    eventCategory: "DY Smart Action",
+    eventLabel: dyExperienceName + "-" + dyVariationName + " - " + area,
+  });
+};
+
 const createElt = (tag, oAttr, content) => {
   const elt = document.createElement(tag);
   if (oAttr) {
@@ -12,14 +22,18 @@ const createElt = (tag, oAttr, content) => {
 };
 
 const init = () => {
-  const views = "${Views}";
-  const minimumViews = "${minimumViews}";
+  const actions = "${Actions}";
+  const minimumActions = "${minimumActions}";
   const text = "${Text}";
-  const viewCount = parseInt(views);
-  const minimum = parseInt(minimumViews);
+  const dyExperienceName = "${dyExperienceName}";
+  const dyTagName = "${dyTagName}";
+  const dyVariationName = "${dyVariationName}";
+  const viewCount = parseInt(actions);
+  const minimum = parseInt(minimumActions);
 
   if (viewCount >= minimum) {
-    const newText = text.replace("$$", "<b>${Views}</b>");
+    sendTracking(dyExperienceName, dyTagName, dyVariationName, "Msg_seen");
+    const newText = text.replace("$$", "<b>${Actions}</b>");
 
     const priceIndicator = document.querySelector(
       ".js-pdp-price.js-update-price-with-installments"
@@ -37,6 +51,8 @@ const init = () => {
     ctn.appendChild(textSpan);
 
     priceIndicator.insertAdjacentElement("afterend", ctn);
+  } else {
+    sendTracking(dyExperienceName, dyTagName, dyVariationName, "Msg_not_seen");
   }
 };
 
