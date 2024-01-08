@@ -1,69 +1,12 @@
+const dyTagName = "${dyTagName}";
+const dyExperienceName = "${dyExperienceName}";
+const dyVariationName = "${dyVariationName}";
+const timeout = parseInt("${Timeout}");
+
+let timerEnd;
+let popinTimer;
+let remainingTime = timeout;
 let count = 0;
-
-const sendTracking = (dyExperienceName, dyTagName, dyVariationName, area) => {
-  dataLayer.push({ event_data: null });
-  dataLayer.push({
-    event: "DY Event",
-    eventAction: dyTagName,
-    eventCategory: "DY Smart Action",
-    eventLabel: dyVariationName + " - " + area,
-  });
-};
-
-const closePopin = (
-  newCtn,
-  popupCtn,
-  dyExperienceName,
-  dyTagName,
-  dyVariationName,
-  eventName,
-  cb
-) => {
-  sendTracking(dyExperienceName, dyTagName, dyVariationName, eventName);
-  if (popupCtn) {
-    popupCtn.classList.remove("is-opened");
-    setTimeout(function () {
-      popupCtn.classList.remove("popin-wrapper");
-      popupCtn.innerHTML = "";
-    }, 400);
-  } else {
-    newCtn.remove();
-  }
-
-  if (typeof cb === "function") {
-    cb();
-  }
-};
-
-const centeringElt = (newCtn, btnLogin) => {
-  const clientWidth = document.body.clientWidth;
-  const btnLoginBounds = btnLogin.getBoundingClientRect();
-  const newCtnWidth = newCtn.clientWidth;
-  const xCenterBtnLogin = btnLoginBounds.x + btnLoginBounds.width / 2;
-  let right, top, beforeX, rootVar;
-
-  right = parseInt(clientWidth - xCenterBtnLogin - newCtnWidth / 2);
-  top = btnLoginBounds.bottom + parseFloat("${Arrow Size}") * 10;
-
-  if (window.matchMedia("(min-width: 1191px)").matches) {
-    top -= 10;
-  }
-
-  if (right <= 0) {
-    right = clientWidth / 200;
-  }
-
-  beforeX =
-    newCtnWidth -
-    (clientWidth - xCenterBtnLogin) +
-    right -
-    (parseFloat("${Arrow Size}") * 10) / 2 +
-    "px";
-
-  rootVar = document.querySelector(":root");
-  rootVar.style.setProperty("--dy-left", beforeX);
-  newCtn.setAttribute("style", "right: " + right + "px; top: " + top + "px;");
-};
 
 const createElt = (tag, oAttr, content) => {
   const elt = document.createElement(tag);
@@ -81,87 +24,148 @@ const createElt = (tag, oAttr, content) => {
   return elt;
 };
 
+const sendTracking = (dyExperienceName, dyTagName, dyVariationName, area) => {
+  dataLayer.push({ event_data: null });
+  dataLayer.push({
+    event: "DY Event",
+    eventAction: dyTagName,
+    eventCategory: "DY Smart Action",
+    eventLabel: dyVariationName + " - " + area,
+  });
+};
+
+const pausePopinTimer = () => {
+  const progressBar = document.querySelector(".progress");
+  progressBar.classList.add("animation-paused");
+
+  sendTracking(dyExperienceName, dyTagName, dyVariationName, "mouse_over");
+
+  // gets remaining time.
+  remainingTime = timerEnd - new Date().getTime();
+  clearTimeout(popinTimer);
+};
+
+const resumePopinTimer = () => {
+  const progressBar = document.querySelector(".progress");
+
+  // sets the new end moment.
+  timerEnd = new Date().getTime() + remainingTime;
+  progressBar.classList.remove("animation-paused");
+  popinTimer = setTimeout(closePopin, remainingTime, "closed_timeout");
+};
+
+const closePopin = (method) => {
+  const notification = document.getElementById("dy-notification-container");
+
+  clearTimeout(popinTimer);
+  notification.removeEventListener("mouseleave", resumePopinTimer);
+
+  sendTracking(dyExperienceName, dyTagName, dyVariationName, method);
+
+  if (notification) {
+    notification.classList.add("dismissed");
+
+    // awaits for the dismiss animation.
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }
+};
+
 const createPopinElt = () => {
-  const newCtn = createElt("div", {
+  const sectionCtn = createElt("section", {
     class:
-      "dy-popin-login curved--large bg-white l-fixed font-small card-shadow--light dy-arrow ${Popin Desktop Size} ${Popin Mobile Tablet} ${Popin Mobile Size}",
+      "js-notif notification l-relative l-overflow-hidden bg-primary pointer-auto above l-fill-width l-vmargin--small",
+    id: "dy-notification-container",
   });
 
-  const section = createElt("section", {
-    class: "l-relative l-vmargin--small",
+  const timerCtn = createElt("div", {
+    class: "progress-wrapper l-absolute l-fill-width",
   });
 
-  const firstLine = createElt("div", {
-    class: "flex flex--space-between flex--align-center fs--medium text-black",
-  });
-  section.appendChild(firstLine);
-
-  const firstContentDiv = createElt("div", {
-    class: "flex flex--justify-start",
+  const timer = createElt("div", {
+    class: "progress bg-white l-fill ",
+    style: "--notification-timeout: ${Timeout}ms",
   });
 
-  const userIcon = createElt(
+  const mainCtn = createElt("div", {
+    class: "flex flex--align-start font-medium text-white",
+  });
+
+  const infoIcon = createElt(
     "div",
-    { class: "l-hmargin--xsmall iconSize" },
-    '<svg role="presentation" class="icon-svg"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688084394767/img/svg/critical.svg#icon-my-account"></use></svg>'
+    { class: "no-flex--shrink l-hmargin--small iconSize" },
+    '<svg role="presentation" class="icon-svg l-hmargin--small no-flex--shrink icon-validation is-success rounded large-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1704471614151/img/svg//non-critical.svg#icon-check"></use></svg>'
   );
-  firstContentDiv.appendChild(userIcon);
 
-  const firstContent = createElt("div", { class: "fw-bold" }, "${Title}");
-  firstContentDiv.appendChild(firstContent);
-  firstLine.appendChild(firstContentDiv);
+  const infoCtn = createElt("div", {
+    class: "flex flex--col flex--basis-full",
+  });
+
+  const title = createElt("p", {
+    class: "fw-bold",
+  });
+  title.innerHTML = "${Title}";
+
+  const text = createElt("p");
+  text.innerHTML = "${Description}";
+
+  const closeIconCtn = createElt("div", { class: "l-padding-around" });
 
   const closeIcon = createElt(
-    "div",
-    { class: "cursor-pointer" },
-    '<svg role="presentation" aria-hidden="true" class="icon-svg " style="font-size: 3.5rem"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1688052685667/img/svg//critical.svg#icon-close"></use></svg>'
+    "a",
+    {
+      class: "js-notification-close l-absolute l-corner",
+      style: "top: 20px",
+    },
+    '<svg role="presentation" class="icon-svg" style="font-size: 3.5rem"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1704471614151/img/svg//critical.svg#icon-close"></use></svg>'
   );
-  firstLine.appendChild(closeIcon);
+  closeIcon.addEventListener("click", () => closePopin("closed_dismissed"));
 
-  const mainContent = createElt(
-    "div",
-    { class: "l-vmargin--medium font-small" },
-    "${Content}"
-  );
-
-  const ctnButtons = createElt("div", { class: "flex flex--justify-center" });
-
-  const btn1 = createElt("a", {
-    class: "btn-cta btn--primary font-label l-hmargin--small",
-    href: "${Link Button 1}",
+  const ctaCtn = createElt("div", {
+    class: "cta-container font-medium flex flex--justify-end",
   });
-  const btn1Span = createElt(
-    "span",
-    { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
-    "${Text Button 1}"
-  );
-  btn1.appendChild(btn1Span);
-  ctnButtons.appendChild(btn1);
 
-  // const btn2 = createElt("a", {
-  //   class: "btn-cta font-label l-hmargin--small",
-  //   href: "${Link Button 2}",
-  // });
+  const cta = createElt("a", {
+    class: "btn-cta font-label  js-btn-cta l-hmargin--large ",
+    href: "${Link Button}",
+  });
 
-  // const btn2Span = createElt(
-  //   "span",
-  //   { style: "padding-left: 1.5rem; padding-right: 1.5rem;" },
-  //   "${Text Button 2}"
-  // );
-  // btn2.appendChild(btn2Span);
-  // ctnButtons.appendChild(btn2);
+  const ctaText = createElt("span", { class: "" });
+  ctaText.innerHTML = "${Cta text}";
 
-  section.appendChild(firstLine);
-  section.appendChild(mainContent);
-  section.appendChild(ctnButtons);
-  newCtn.appendChild(section);
+  cta.addEventListener("click", function () {
+    sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_cta");
+  });
 
-  return {
-    newCtn: newCtn,
-    closeIcon: closeIcon,
-    btn1: btn1,
-    // btn2: btn2,
-  };
+  timerCtn.appendChild(timer);
+  mainCtn.appendChild(infoIcon);
+  infoCtn.appendChild(title);
+  infoCtn.appendChild(text);
+  mainCtn.appendChild(infoCtn);
+  closeIconCtn.appendChild(closeIcon);
+  mainCtn.appendChild(closeIconCtn);
+  cta.appendChild(ctaText);
+  ctaCtn.appendChild(cta);
+  sectionCtn.appendChild(timerCtn);
+  sectionCtn.appendChild(mainCtn);
+  sectionCtn.appendChild(ctaCtn);
+
+  return sectionCtn;
+};
+
+const createPopin = () => {
+  const aside = document.getElementsByTagName("aside")[0];
+  if (aside) {
+    const notification = createPopinElt();
+    aside.appendChild(notification);
+    notification.addEventListener("mouseenter", pausePopinTimer);
+    notification.addEventListener("mouseleave", resumePopinTimer);
+
+    // sets timer & registers when it should end.
+    timerEnd = new Date().getTime() + timeout;
+    popinTimer = setTimeout(closePopin, timeout, "closed_timeout");
+  }
 };
 
 const init = () => {
@@ -170,72 +174,20 @@ const init = () => {
       .firstElementChild;
 
   if (minicart) {
+    // checks if there's items in the cart.
+
     const minicartHTML = minicart.innerHTML;
     const minicartNumber = parseInt(
       minicartHTML.replace(/\r?\n|\r/g, "").trim()
     );
+
     minicartNumber > 0 ? createPopin() : null;
   } else {
-    if (count < 250 && !minicart) {
+    if (count < 100 && !minicart) {
       count++;
       setTimeout(init, 250);
     }
   }
-};
-
-const createPopin = () => {
-  const dyTagName = "${dyTagName}";
-  const dyExperienceName = "${dyExperienceName}";
-  const dyVariationName = "${dyVariationName}";
-  const btnLogin = document.querySelector(".js-minicart-template");
-  let popupCtn;
-  let timeout;
-
-  const reportWindowSize = function () {
-    clearInterval(timeout);
-    timeout = setTimeout(function () {
-      centeringElt(newCtn, btnLogin);
-    }, 100);
-  };
-
-  const removeResize = function () {
-    window.removeEventListener("resize", reportWindowSize);
-  };
-
-  const popinElt = createPopinElt();
-  const newCtn = popinElt.newCtn;
-  const closeIcon = popinElt.closeIcon;
-  const btn1 = popinElt.btn1;
-  // const btn2 = popinElt.btn2;
-
-  if (btnLogin) {
-    headerMenuMain = document.querySelector(".header-menu-main");
-    headerMenuMainParent = headerMenuMain.parentNode;
-    headerMenuMainParent.insertBefore(newCtn, headerMenuMain);
-
-    centeringElt(newCtn, btnLogin);
-    window.addEventListener("resize", reportWindowSize);
-  }
-
-  closeIcon.addEventListener("click", function () {
-    closePopin(
-      newCtn,
-      popupCtn,
-      dyExperienceName,
-      dyTagName,
-      dyVariationName,
-      "close_popin",
-      removeResize
-    );
-  });
-
-  btn1.addEventListener("click", function () {
-    sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn1");
-  });
-
-  // btn2.addEventListener("click", function () {
-  //   sendTracking(dyExperienceName, dyTagName, dyVariationName, "click_on_btn2");
-  // });
 };
 
 try {
