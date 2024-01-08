@@ -1,0 +1,100 @@
+$wrapper-padding: 15px;
+
+@keyframes scale-down-x {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(calc(100% + #{$wrapper-padding}));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(calc(100% + #{$wrapper-padding}));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.notification-wrapper {
+  position: fixed;
+  z-index: z(popover) + 1; // must be over popin
+
+  .notification {
+    padding: 25px 20px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+    backface-visibility: hidden;
+
+    .notification-bg {
+      z-index: z(below);
+      opacity: 0.95;
+    }
+
+    .cta-container {
+      margin-top: 20px;
+    }
+  }
+
+  .progress-wrapper {
+    top: 1px;
+    height: 4px;
+    left: 0;
+  }
+
+  .progress {
+    transform-origin: top left;
+    animation: scale-down-x var(--notification-timeout, 300ms) linear forwards;
+  }
+
+  .animation-paused {
+    animation-play-state: paused;
+  }
+}
+
+@include respond-to(mobile-only) {
+  .notification-wrapper {
+    bottom: 0;
+    padding: 0 $wrapper-padding;
+
+    // fix ios safari having its native nav bar that appears in front of our fixed notification block
+    height: calc(var(--vh-static, 1vh) * 100);
+
+    .notification {
+      animation: slide-up 300ms ease;
+      transition: opacity 300ms ease;
+
+      &.dismissed {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+@include respond-to(tablet-and-desktop) {
+  .notification-wrapper {
+    top: var(--header-height-with-all);
+    right: 0;
+    padding-right: $wrapper-padding;
+    min-width: 360px;
+
+    .notification {
+      animation: slide-left 300ms ease;
+      transition: transform 300ms ease;
+
+      &.dismissed {
+        transform: translateX(calc(100% + #{$wrapper-padding}));
+      }
+    }
+  }
+}
