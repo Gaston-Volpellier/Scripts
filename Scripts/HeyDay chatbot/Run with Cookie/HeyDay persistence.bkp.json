@@ -1,0 +1,23 @@
+{
+  "dk": {
+    "scope1": "https://api.eu.heyday.ai/v130/3858462857/6235852679/en/setupchat.js"
+  },
+  "ie": {
+    "scope1": "https://api.eu.heyday.ai/v130/4785378963/5389634213/en/setupchat.js"
+  },
+  "se": {
+    "scope1": "https://api.eu.heyday.ai/v130/2931546751/7082071145/en/setupchat.js"
+  },
+  "pt": {
+    "scope1": "https://api.eu.heyday.ai/v130/5837036247/4558969550/pt/setupchat.js"
+  },
+  "be_fr": {
+    "scope1": "https://api.eu.heyday.ai/v130/5106197307/4404347958/fr/setupchat.js"
+  },
+  "be_nl": {
+    "scope1": "https://api.eu.heyday.ai/v130/5106197307/4404347958/nl/setupchat.js"
+  },
+  "at": {
+    "scope1": "https://api.eu.heyday.ai/v130/5640959081/3867372676/de/setupchat.js"
+  }
+}
