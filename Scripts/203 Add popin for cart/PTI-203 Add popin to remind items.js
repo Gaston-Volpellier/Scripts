@@ -94,8 +94,8 @@ const createPopinElt = () => {
 
   const infoIcon = createElt(
     "div",
-    { class: "no-flex--shrink l-hmargin--small iconSize" },
-    '<svg role="presentation" class="icon-svg l-hmargin--small no-flex--shrink icon-validation is-success rounded large-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1704471614151/img/svg//non-critical.svg#icon-check"></use></svg>'
+    { class: "no-flex--shrink l-hmargin--small message-info iconSize" },
+    '<svg role="presentation" class="icon-svg message-icon l-hmargin--small rounded no-flex--resize large-icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1705457938392/img/svg//non-critical.svg#icon-info"></use></svg>'
   );
 
   const infoCtn = createElt("div", {
