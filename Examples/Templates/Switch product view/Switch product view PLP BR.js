@@ -25,6 +25,22 @@ function getCompleteSrc(dataImageSrc) {
   return "//" + url.hostname + url.pathname;
 }
 
+function createElt(tag, oAttr, content) {
+  const elt = document.createElement(tag);
+
+  if (oAttr) {
+    for (let prop in oAttr) {
+      elt.setAttribute(prop, oAttr[prop]);
+    }
+  }
+
+  if (content) {
+    elt.innerHTML = content;
+  }
+
+  return elt;
+}
+
 function eltFactory(type, attributes) {
   const elt = document.createElement(type);
   for (let attribute in attributes) {
@@ -47,10 +63,11 @@ function addSwitchButton() {
   }
 
   const ctn = eltFactory("div", {
-    class: "flex flex--align-center l-mt-vmargin--medium",
+    class:
+      "js-plp-num-results plp-num-results flex flex--align-center l-mt-vmargin--medium padding-m-1 dy-flex-1",
   });
   const contentCtn = eltFactory("div", {
-    class: "l-hmargin--small fs--small line-height-1 ff-semibold",
+    class: "l-hmargin--small font-medium line-height-1 ff-semibold",
   });
   contentCtn.innerHTML = "${View Content}";
   const packshotCtn = eltFactory("div", {
@@ -59,24 +76,38 @@ function addSwitchButton() {
       (state === "model" ? "opacity--small" : ""),
     "data-dy": "packshot",
   });
-  const packshotIcon = eltFactory("img", {
-    src: "${PackShot Icon}",
+  const packshotIconCtn = eltFactory("div", {
+    class: "icon-box",
     width: "24px",
-    height: "auto",
+    height: "24px",
     title: "${PackShot Bubble Title}",
   });
+  const packshotIcon = createElt(
+    "div",
+    { class: "l-hmargin--small" },
+    '<svg role="presentation" class="dy-icon-style dy-icon-thick"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1702386419154/img/svg/non-critical.svg#icon-polo"></use></svg>'
+  );
+  packshotIconCtn.appendChild(packshotIcon);
+
   const modelCtn = eltFactory("div", {
     class:
       "dy-btn dy-transition l-hmargin--small cursor-pointer " +
       (state === "packshot" ? "opacity--small" : ""),
     "data-dy": "model",
   });
-  const modelIcon = eltFactory("img", {
-    src: "${Model Icon}",
+  const modelIconCtn = eltFactory("div", {
+    class: "icon-box",
     width: "24px",
-    height: "auto",
+    height: "24px",
     title: "${Model Bubble Title}",
   });
+  const modelIcon = createElt(
+    "div",
+    { class: "l-hmargin--small" },
+    '<svg role="presentation" class="dy-icon-style"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1702386419154/img/svg/critical.svg#icon-my-account"></use></svg>'
+  );
+  modelIconCtn.appendChild(modelIcon);
+
   const toggleClass = function (elt) {
     let dataDy;
     if (elt.currentTarget.classList.contains("opacity--small")) {
@@ -91,9 +122,8 @@ function addSwitchButton() {
     }
   };
 
-  packshotCtn.appendChild(packshotIcon);
-  modelCtn.appendChild(modelIcon);
-  packshotCtn.appendChild(packshotIcon);
+  modelCtn.appendChild(modelIconCtn);
+  packshotCtn.appendChild(packshotIconCtn);
 
   modelCtn.addEventListener("click", toggleClass);
   packshotCtn.addEventListener("click", toggleClass);
@@ -110,6 +140,9 @@ function addSwitchButton() {
   if (filtersCtn) {
     parentFilter = filtersCtn.parentNode;
     lastEltFilter = parentFilter.children[parentFilter.children.length - 1];
+    parentFilter.classList.add("dy-flex-wrap");
+    filtersCtn.classList.add("dy-flex-1", "dy-block");
+    parentFilter.lastElementChild.classList.remove("flex-m--basis-full");
     parentFilter.insertBefore(ctn, lastEltFilter);
   }
 }
