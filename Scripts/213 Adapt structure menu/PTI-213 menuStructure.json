@@ -1,0 +1,18 @@
+{
+  "gender": {
+    "nouveautes": 1,
+    "homme": 2,
+    "femme": 3,
+    "enfant": 4
+  },
+  "section": {
+    "vetements": 1,
+    "homme": 1,
+    "femme": 2,
+    "chaussures": 2,
+    "enfant": 3,
+    "accessoires": 3,
+    "sacs-petite-maroquinerie": 4,
+    "sport": 5
+  }
+}
