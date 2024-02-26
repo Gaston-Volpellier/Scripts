@@ -1,0 +1,4 @@
+.sticky-banner.sticky-visible.dy-sticky {
+  height: 73px;
+  transform: translateY(1px);
+}
