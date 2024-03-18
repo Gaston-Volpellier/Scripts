@@ -28,14 +28,14 @@ const addSpan = (text) => {
       { class: "text-grey-dark text-start font-small l-hmargin--xsmall" },
       text
     );
-    const deskIcon = createElt(
-      "div",
-      { class: "no-flex--shrink l-hmargin--small message-info" },
-      '<svg role="presentation" class="icon-svg message-icon l-hmargin--small rounded no-flex--resize large-icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1705457938392/img/svg//non-critical.svg#icon-info"></use></svg>'
-    );
+    // const deskIcon = createElt(
+    //   "div",
+    //   { class: "no-flex--shrink l-hmargin--small message-info" },
+    //   '<svg role="presentation" class="icon-svg message-icon l-hmargin--small rounded no-flex--resize large-icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1705457938392/img/svg//non-critical.svg#icon-info"></use></svg>'
+    // );
 
     deskCtn.appendChild(deskSpan);
-    deskCtn.appendChild(deskIcon);
+    // deskCtn.appendChild(deskIcon);
 
     deskCta.firstElementChild.classList.add("l-vmargin--xsmall");
     deskCta.appendChild(deskCtn);
@@ -49,14 +49,14 @@ const addSpan = (text) => {
       { class: "text-grey-dark text-start font-small l-hmargin--xsmall" },
       text
     );
-    const mobileIcon = createElt(
-      "div",
-      { class: "no-flex--shrink l-hmargin--small message-info" },
-      '<svg role="presentation" class="icon-svg message-icon l-hmargin--small rounded no-flex--resize medium-icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1705457938392/img/svg//non-critical.svg#icon-info"></use></svg>'
-    );
+    // const mobileIcon = createElt(
+    //   "div",
+    //   { class: "no-flex--shrink l-hmargin--small message-info" },
+    //   '<svg role="presentation" class="icon-svg message-icon l-hmargin--small rounded no-flex--resize medium-icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/default/v1705457938392/img/svg//non-critical.svg#icon-info"></use></svg>'
+    // );
 
     mobileCtn.appendChild(mobileSpan);
-    mobileCtn.appendChild(mobileIcon);
+    // mobileCtn.appendChild(mobileIcon);
 
     mobileCta.classList.add("flex--col");
     mobileCta.firstElementChild.classList.add("l-m-vmargin--xsmall");

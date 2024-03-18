@@ -4,11 +4,24 @@ const ctaText = "${CTA Text}";
 const ctaLink = "${CTA Link}";
 const popinContainer = document.querySelector("footer + div");
 
+const fixCtaStyle = () => {
+  const mobileCta = document.querySelector(".js-pdp-exclusive-atcbtn-cta");
+
+  mobileCta
+    ? (mobileCta.classList.add("js-pdp-exclusive-atc", "btn-cta"),
+      mobileCta.classList.remove("js-pdp-exclusive-atcbtn-cta"))
+    : null;
+};
+
 const changeCta = () => {
   // changes main cta
   const mainCta = document.querySelector(".js-buy-or-notify");
   const ctaAnchor = mainCta.querySelector(".btn-cta");
+  const tabletCta = document.querySelector(
+    ".js-sticky-banner-start-mt"
+  ).firstElementChild;
 
+  // Changes Desktop CTA
   if (ctaAnchor) {
     if (ctaAnchor.nodeName !== "A") {
       ctaAnchor.classList.remove("js-pdp-exclusive-atc");
@@ -18,7 +31,7 @@ const changeCta = () => {
       const newAnchor = document.createElement("a");
       newAnchor.setAttribute(
         "class",
-        "btn-cta btn--conversion font-label l-fill-width text-center"
+        " btn-cta btn--conversion font-label l-fill-width text-center "
       );
       newAnchor.setAttribute("href", ctaLink);
       if (ctaText !== "") {
@@ -33,7 +46,6 @@ const changeCta = () => {
       ctaAnchor.setAttribute("href", ctaLink);
       ctaAnchor.classList.remove("js-pdp-exclusive-atc");
 
-      // Production classlist - Delete if not needed
       ctaAnchor.classList.remove("js-pdp-quick-buy-popin");
     }
   } else {
@@ -42,6 +54,8 @@ const changeCta = () => {
       setTimeout(changeCta, 100);
     }
   }
+
+  tabletCta ? tabletCta.classList.remove("js-pdp-exclusive-atc") : null;
 };
 
 function globalObserver(state) {
@@ -91,9 +105,10 @@ const mutationCallback = (mutationList, observer) => {
 const observer = new MutationObserver(mutationCallback);
 
 const init = () => {
-  console.log("DY | Running PTI 212");
+  console.log("DY | Running PTI-212");
   globalObserver("on");
   changeCta();
+  fixCtaStyle();
 };
 
 try {

@@ -169,6 +169,7 @@ const createPopin = () => {
 };
 
 const init = () => {
+  console.log("DY | Running PTI 203");
   const minicart =
     document.querySelector(".js-minicart-link").lastElementChild
       .firstElementChild;
