@@ -1,25 +1,16 @@
 let count = 0;
-let ctaCount = 0;
 const config = { attributes: true, childList: true, subtree: true };
 const ctaText = "${CTA Text}";
 const ctaLink = "${CTA Link}";
-const fixStyle = "${Fix CTA style}";
 const popinContainer = document.querySelector("footer + div");
 
 const fixCtaStyle = () => {
-  const mobileCta = document.querySelector(
-    ".js-pdp-exclusive-atcbtn--conversion"
-  );
+  const mobileCta = document.querySelector(".js-pdp-exclusive-atcbtn-cta");
 
-  if (mobileCta) {
-    mobileCta.classList.add("js-pdp-exclusive-atc", "btn--conversion");
-    mobileCta.classList.remove("js-pdp-exclusive-atcbtn--conversion");
-  } else {
-    if (ctaCount < 30) {
-      ctaCount++;
-      setTimeout(fixCtaStyle, 200);
-    }
-  }
+  mobileCta
+    ? (mobileCta.classList.add("js-pdp-exclusive-atc", "btn-cta"),
+      mobileCta.classList.remove("js-pdp-exclusive-atcbtn-cta"))
+    : null;
 };
 
 const changeCta = () => {
@@ -115,12 +106,10 @@ const mutationCallback = (mutationList, observer) => {
 const observer = new MutationObserver(mutationCallback);
 
 const init = () => {
-  console.log("DY | Running PTI 212");
+  console.log("DY | Running PTI-212");
   globalObserver("on");
   changeCta();
-  if (fixStyle === "yes") {
-    fixCtaStyle();
-  }
+  // fixCtaStyle();
 };
 
 try {

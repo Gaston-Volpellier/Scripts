@@ -1,4 +1,9 @@
 .sticky-banner.sticky-visible.dy-sticky {
-  height: 78px;
+  height: 80px;
   transform: translateY(1px);
+}
+
+.dy-mob-timer,
+.dy-mob-message {
+  border: solid 1px #002d18;
 }
