@@ -77,90 +77,123 @@ const setProgress = (percentage) => {
   }
 };
 
+const isFirstCurrentStep = (currentStep) => {
+  const currentStepParent = currentStep.parentElement;
+  return currentStepParent.firstChild === currentStep;
+};
+
 const createProgressBar = () => {
+  const currentStep = document.querySelector(".step-current");
   // checks for existing progress bar
   const deskBar = document.querySelector(".dy-desk-ctn");
   const mobBar = document.querySelector(".dy-mobile-ctn");
   deskBar ? deskBar.remove() : null;
   mobBar ? mobBar.remove() : null;
 
-  const container = document.querySelector(".cart-summary");
-  const mobileContainer = document.querySelector(".step-current");
-  const cartTotal = getCartTotal();
-  const cartProgress = cartTotal > 0 ? (cartTotal / freeDelivery) * 100 : 0;
-  const difference = freeDelivery - cartTotal;
+  if (isFirstCurrentStep(currentStep)) {
+    const container = document.querySelector(".cart-summary");
+    const mobileContainer = document.querySelector(".step-current");
+    const cartTotal = getCartTotal();
+    const cartProgress = cartTotal > 0 ? (cartTotal / freeDelivery) * 100 : 0;
+    const difference = freeDelivery - cartTotal;
 
-  if (difference > 0) {
-    if (container && mobileContainer) {
-      const formatDifference = Intl.NumberFormat("${Country currency format}", {
-        style: "currency",
-        currency: "${Currency}",
-        currencyDisplay: "narrowSymbol",
-        minimumFractionDigits: 2,
-      }).format(difference);
+    if (difference > 0) {
+      if (container && mobileContainer) {
+        const formatDifference = Intl.NumberFormat(
+          "${Country currency format}",
+          {
+            style: "currency",
+            currency: "${Currency}",
+            currencyDisplay: "narrowSymbol",
+            minimumFractionDigits: 2,
+          }
+        ).format(difference);
 
-      const title = container.firstElementChild.querySelector("h1");
-      const ctn = createElt("div", { class: "dy-container l-vmargin--large" });
+        const title = container.firstElementChild.querySelector("h1");
+        const ctn = createElt("div", {
+          class: "dy-container l-vmargin--large",
+        });
 
-      // hides mobile version of "Join club lacoste"
-      mobileContainer.children[1].firstElementChild.firstElementChild.classList.add(
-        "no-mob",
-        "no-tab"
-      );
+        // hides mobile version of "Join club lacoste"
+        mobileContainer.children[1].firstElementChild.firstElementChild.classList.add(
+          "no-mob",
+          "no-tab"
+        );
 
-      const descriptionCtn = createElt("div", {
-        class: "flex flex--align-center l-vmargin--small",
-      });
+        const descriptionCtn = createElt("div", {
+          class: "flex flex--align-center l-vmargin--small",
+        });
 
-      const descriptionSpan = createElt(
-        "span",
-        {
-          class: "font-medium text-primary text-center l-hmargin--xsmall",
-        },
-        message.replace("%amount%", formatDifference)
-      );
+        const descriptionSpan = createElt(
+          "span",
+          {
+            class: "font-medium text-primary text-center l-hmargin--xsmall",
+          },
+          message.replace("%amount%", formatDifference)
+        );
 
-      const progressBar = createElt("div", {
-        class: "dy-progressBar",
-      });
-      const progress = createElt("div", {
-        class: "dy-progress",
-      });
+        const progressBar = createElt("div", {
+          class: "dy-progressBar",
+        });
+        const progress = createElt("div", {
+          class: "dy-progress",
+        });
 
-      descriptionCtn.appendChild(descriptionSpan);
-      ctn.appendChild(descriptionCtn);
+        descriptionCtn.appendChild(descriptionSpan);
+        ctn.appendChild(descriptionCtn);
 
-      progressBar.appendChild(progress);
-      ctn.appendChild(progressBar);
+        progressBar.appendChild(progress);
+        ctn.appendChild(progressBar);
 
-      const mobileCtn = ctn.cloneNode(true);
+        const mobileCtn = ctn.cloneNode(true);
 
-      ctn.classList.add("no-mob", "no-tab", "dy-desk-ctn");
-      mobileCtn.classList.add("no-desk", "padding-1", "dy-mobile-ctn");
+        ctn.classList.add("no-mob", "no-tab", "dy-desk-ctn");
+        mobileCtn.classList.add("no-desk", "padding-1", "dy-mobile-ctn");
 
-      container.firstElementChild.insertBefore(ctn, title.nextElementSibling);
-      mobileContainer.insertBefore(mobileCtn, mobileContainer.lastElementChild);
+        container.firstElementChild.insertBefore(ctn, title.nextElementSibling);
+        mobileContainer.insertBefore(
+          mobileCtn,
+          mobileContainer.lastElementChild
+        );
 
-      setProgress(cartProgress);
-    } else {
-      count++;
+        setProgress(cartProgress);
+      } else {
+        count++;
 
-      setTimeout(() => {
-        if (count < 50 && !container && !mobileContainer) {
-          createProgressBar();
-        }
-      }, 300);
+        setTimeout(() => {
+          if (count < 50 && !container && !mobileContainer) {
+            createProgressBar();
+          }
+        }, 300);
+      }
+    }
+  }
+};
+
+// Checks if the user advances to the next step and removes the progress bar
+const createMutationObserver = (currentStep) => {
+  const config = { attributes: true };
+  const observer = new MutationObserver(mutationCallback);
+  observer.observe(currentStep, config);
+};
+
+const mutationCallback = (mutationsList) => {
+  for (let mutation of mutationsList) {
+    if (mutation.attributeName === "class") {
+      createProgressBar();
+      break;
     }
   }
 };
 
 const init = () => {
   console.log("DY | PTI-218 Running");
-
   const selects = document.querySelectorAll(".select-cta");
 
   if (selects.length > 0) {
     count = 0;
+    const currentStep = document.querySelector(".step-current");
+    createMutationObserver(currentStep);
 
     selects.forEach((element) => {
       element.addEventListener("change", function () {
