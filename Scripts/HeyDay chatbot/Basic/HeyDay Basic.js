@@ -125,7 +125,7 @@ const experienceName = "${dyExperienceName}";
 const variationName = "${dyVariationName}";
 
 try {
-  console.log("DY | Running Basic HeyDay", "${TestVariable}");
+  console.log("DY | Running Basic HeyDay");
   const countryData = getCountry();
   let jsonApi = "${urls API JSON String}";
   jsonApi = JSON.parse(jsonApi);

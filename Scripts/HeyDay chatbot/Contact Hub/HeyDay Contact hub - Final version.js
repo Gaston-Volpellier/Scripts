@@ -1,47 +1,3 @@
-// https://rantz.net/tools/stringify/index.php
-/*const _api = {
-  "fr":{
-    "scope1":"https://api.eu.heyday.ai/v130/0017414526/0724868275/fr/setupchat.js",
-    "scope2":"https://api.eu.heyday.ai/v130/0017414526/0724868275/fr/setupchat.js"
-  },
-  "us":{
-    "scope1":"https://api.eu.heyday.ai/v130/6407788685/9455540576/en/setupchat.js"
-    
-  },
-  "gb":{
-    "scope1":"https://api.eu.heyday.ai/v130/9250843058/3945472610/en/setupchat.js"
-  },
-  "es":{
-    "scope1":"https://api.eu.heyday.ai/v130/1068942742/0087086033/es/setupchat.js"
-  },
-  "de":{
-    "scope1":"https://api.eu.heyday.ai/v130/0926335300/3699691995/de/setupchat.js"
-  }
-};*/
-
-/* const scope2Message = {
-    fr:{
-      "message": "Besoin des conseils d\'un expert produit ?",
-    },
-    us:{
-      "message": "",
-    },
-    gb:{
-      "message": "",
-    }
-}*/
-
-// const buttonText = {
-//   fr: { text: "DÉMARRER UNE DISCUSSION" },
-//   gb: { text: "START A CHAT" },
-//   nl: { text: "EEN CHAT STARTEN" },
-//   de: { text: "STARTEN SIE EINEN CHAT" },
-//   it: { text: "INZIA UNA CONVERSAZIONE" },
-//   pt: { text: "INICIAR UMA CONVERSA" },
-//   es: { text: "INICIAR UNA CONVERSACIÓN" },
-//   kr: { text: "채팅 시작하기" },
-// };
-
 // change any double quotes for single quotes in this variables to avoid the string quitting the json
 const apiUrls = "${urls API JSON String}";
 const jsonMessages = "${welcome_message attribute value JSON}";
@@ -50,14 +6,43 @@ const ctaText = "${CTA text JSON}";
 let count = 0;
 let openChatCount = 0;
 
+const setLoader = (content) => {
+  const chatBotCta = document.querySelector(".dy-chatbot");
+  if (content) {
+    chatBotCta.innerHTML = "";
+
+    const cocoLoader = createElt(
+      "div",
+      {
+        class: "croco-loader is-opened flex flex--justify-center dy-loader-ctn",
+      },
+      '<svg role="presentation" class="icon-svg icon-croco-loader dy-loader"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/on/demandware.static/Sites-FR-Site/-/fr/v1713861100024/img/svg/critical.svg#icon-croco-loader"></use></svg>'
+    );
+    chatBotCta.appendChild(cocoLoader);
+  } else {
+    // removes loader if there
+    chatBotCta.firstElementChild ? chatBotCta.firstElementChild.remove() : null;
+
+    const countryData = getCountry();
+    const country = countryData.country;
+    const jsonCtaText = JSON.parse(ctaText);
+
+    // If it does not find the country it defaults to english
+    const buttonText =
+      typeof jsonCtaText[country] === "undefined"
+        ? jsonCtaText["gb"].text
+        : jsonCtaText[country].text;
+
+    chatBotCta.innerHTML = buttonText;
+  }
+};
+
 const clickOnChat = () => {
   const chatbotBubble = document.getElementById("HeydayStartIconContainer");
   if (chatbotBubble) {
-    console.log("chatbotBubble found", chatbotBubble);
     chatbotBubble.click();
   } else {
     if (openChatCount < 30 && !chatbotBubble) {
-      console.log("Didnt find box", openChatCount);
       openChatCount++;
       setTimeout(() => {
         clickOnChat();
@@ -113,7 +98,6 @@ const getCountry = function () {
   if (url.pathname === "/on/demandware.store/Sites-FR-Site/fr/Contact-Hub") {
     country = "fr";
   }
-  console.log("getCountry return", country, lang);
 
   return {
     country: country,
@@ -158,7 +142,6 @@ const didomiStatus = function () {
       }
     }
   }
-  console.log("DY | Didomi status: ", status);
 
   return status;
 };
@@ -169,6 +152,8 @@ const variationName = "${dyVariationName}";
 
 const startChatBot = () => {
   console.log("DY | Creating chatbot");
+
+  setLoader(true);
   const countryData = getCountry();
   const jsonApi = JSON.parse(apiUrls);
 
@@ -190,7 +175,6 @@ const startChatBot = () => {
   }
 
   if (typeof jsonApi[country] === "undefined") {
-    console.log("DY | Chatbot country not found");
     return;
   }
 
@@ -214,7 +198,6 @@ const startChatBot = () => {
   let chatIconAsync = null;
 
   const chatClose = function (elt) {
-    console.log("DY | Chat Close");
     const btnClose = document.createElement("div");
     btnClose.setAttribute(
       "style",
@@ -251,7 +234,6 @@ const startChatBot = () => {
   };
 
   const chatPosition = function (elt) {
-    console.log("DY | Chat Position");
     let pageCategory;
 
     if (
@@ -278,28 +260,20 @@ const startChatBot = () => {
   };
 
   const chatListenChanges = function () {
-    console.log("DY | Chat Listenchanges");
     const targetNode = document.querySelector("body");
     const config = { childList: true };
     const chatObserver = function (mutationsList) {
       for (let mutation of mutationsList) {
         if (mutation.type == "childList") {
           for (let i = 0, l = mutation.addedNodes.length; i < l; i++) {
-            console.log(
-              "DY | Mutation added childlist",
-              mutation.addedNodes[i]
-            );
             if (mutation.addedNodes[i].id === "HeydayStartIconContainer") {
-              console.log(
-                "DY | Mutation HeydayStartIconContainer",
-                mutation.addedNodes[i]
-              );
               chatClose(mutation.addedNodes[i]);
               chatPosition(mutation.addedNodes[i]);
               observer.disconnect();
 
               setTimeout(() => {
                 clickOnChat();
+                setLoader(false);
               }, 500);
             }
           }
@@ -308,12 +282,9 @@ const startChatBot = () => {
     };
     const observer = new MutationObserver(chatObserver);
     observer.observe(targetNode, config);
-    console.log("DY | Observing changes");
   };
 
   const chatLoadScript = function (evt) {
-    console.log("DY | ChatLoadScript");
-
     if (chatIconAsync) {
       chatIconAsync.style.filter = "grayscale(0.5)";
     }
@@ -322,8 +293,6 @@ const startChatBot = () => {
     o.async = !0;
     o.onload = function () {
       if (displayCloseButton === "yes") {
-        console.log("DY | Display close button yes");
-
         chatListenChanges();
         if (chatIconAsync) {
           chatIconAsync.remove();
@@ -339,7 +308,6 @@ const startChatBot = () => {
     o.src = api;
     const a = document.getElementsByTagName("script")[0];
     a.parentNode.insertBefore(o, a);
-    console.log("DY | Adding StyleSheets", o);
 
     //Send DY Impression
     DY.API("event", {
@@ -351,7 +319,6 @@ const startChatBot = () => {
   };
 
   const chatAppendLogo = function () {
-    console.log("DY | ChatAppendLogo");
     chatIconAsync = document.createElement("div");
     chatIconAsync.setAttribute("class", "dy-chat-icon");
     chatIconAsync.setAttribute("title", textAltIconChat);
@@ -368,7 +335,6 @@ const startChatBot = () => {
   };
 
   const chatHTML = function () {
-    console.log("DY | Creating ChatHTML");
     const useDelayClose = "${Use Delay Close}";
     const delayClose = "${Display Bubble Welcome Time}";
     const widgetState = "${Widget State}";
@@ -399,7 +365,6 @@ const startChatBot = () => {
       const ref = "${Ref attribute value}";
       chatDiv.setAttribute("ref", ref);
 
-      console.log("Welcome message: ", jsonMessages);
       if (jsonMessages.length !== 0) {
         welcome_message = JSON.parse(jsonMessages);
         if (
@@ -423,16 +388,11 @@ const startChatBot = () => {
     chatAppendLogo();
   } else {
     if (getLcstCookie(cookieName)) {
-      console.log("DY | getLcstCookie", getLcstCookie(cookieName));
       chatLoadScript();
     } else {
       if (useScope2 === "yes" && pageType === "product") {
-        console.log("DY | usescop2 yes & pagetype prod");
         setTimeout(chatLoadScript, customDelayForProducts * 1000);
       } else {
-        console.log(
-          "DY | asyncmode yes, getlcstcookie no, no scope2 or pagetype prod"
-        );
         chatLoadScript();
       }
     }
@@ -447,6 +407,11 @@ const startChatBot = () => {
       }
     }
   };
+
+  // after 10 seconds, if the loader is still there, it will go back to the text
+  setTimeout(() => {
+    setLoader(false);
+  }, 10000);
 };
 
 const createElt = (tag, oAttr, content) => {
@@ -463,44 +428,25 @@ const createElt = (tag, oAttr, content) => {
 };
 
 const init = () => {
-  // contact hub
-  const container = document
-    .querySelectorAll("main")[1]
-    .querySelector("section")
-    .querySelectorAll("article")[0].firstElementChild.lastElementChild;
+  const cta = document.querySelector('[data-value="ContactHub_Chatbot"]');
+  const container = cta.parentElement;
 
   if (container) {
-    console.log("Chatbox found", container);
-    // Removes any existing cta
-    container.firstElementChild.remove();
+    // Removes original cta
+    cta.remove();
 
-    const countryData = getCountry();
-    const country = countryData.country;
-    const jsonCtaText = JSON.parse(ctaText);
-
-    // If it does not find the country it defaults to english
-    const buttonText =
-      typeof jsonCtaText[country] === "undefined"
-        ? jsonCtaText["gb"].text
-        : jsonCtaText[country].text;
-
-    const chatBotCta = createElt(
-      "div",
-      {
-        class: "btn-cta btn--primary font-label l-fill-width dy-chatbot",
-      },
-      buttonText
-    );
-
-    console.log("chatBotCta", chatBotCta);
+    const chatBotCta = createElt("div", {
+      class:
+        "btn--primary btn-cta font-label l-fill-width js-contact-hub-tracked-cta dy-chatbot",
+    });
 
     container.appendChild(chatBotCta);
+    setLoader(false);
 
     chatBotCta.addEventListener("click", startChatBot);
   } else {
     if (count < 50 && !container) {
       count++;
-      console.log("Didn't find box", count);
 
       setTimeout(() => {
         init();
